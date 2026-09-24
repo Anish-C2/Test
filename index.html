@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CASPER Archive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+<style>
+:root{--bg:#efe8d8;--paper:#f7f1e6;--ink:#1c1812;--rule:#c4b79a;--rule-d:#8a7d62;--muted:#6f6556;--gold:#8a6a2a;--gold-b:#b8954a;--navy:#2c3a4a;--ok:#3d6b40;--hot:#8b3a3a;--tint:#e7dcc4}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink)}
+body{font-family:Newsreader,"Times New Roman",serif;font-size:16px;line-height:1.45}
+a{color:var(--navy);text-decoration:none}a:hover{text-decoration:underline}
+button,input,select,textarea{font:inherit;color:inherit}
+.shell{min-height:100vh}
+.mast{border-bottom:3px double var(--ink);background:var(--paper);padding:14px 22px 10px}
+.mast-top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.org{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.brand{font-family:"Playfair Display",Georgia,serif;font-size:42px;line-height:.9;letter-spacing:.04em}
+.brand small{display:block;font-family:Newsreader,serif;font-style:italic;font-size:15px;letter-spacing:0;font-weight:400;color:var(--muted);margin-top:4px}
+.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.tools select,.tools input,.tools button{background:#fffaf0;border:1px solid var(--rule-d);padding:6px 9px;border-radius:0}
+.tools input{width:min(280px,70vw)}
+.dateline{margin-top:8px;border-top:1px solid var(--rule);padding-top:6px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.tabs{display:flex;flex-wrap:wrap;gap:0;border-bottom:1px solid var(--ink);background:var(--tint)}
+.tabs a{padding:8px 14px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);border-right:1px solid var(--rule)}
+.tabs a:hover{background:var(--paper);text-decoration:none}
+.tabs a.on{background:var(--ink);color:var(--paper)}
+.view{padding:22px 22px 80px;max-width:1180px}
+.err{border:1px solid var(--hot);background:#f4e4dc;padding:16px}
+h1{font-family:"Playfair Display",Georgia,serif;font-size:34px;font-weight:700;line-height:1.05;margin-bottom:4px}
+.sub{color:var(--muted);font-style:italic;margin-bottom:16px}
+h3{font-size:12px;letter-spacing:.16em;text-transform:uppercase;border-bottom:1px solid var(--ink);padding-bottom:4px;margin-bottom:10px}
+.kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:16px}
+.kpi{border:1px solid var(--rule-d);background:var(--paper);padding:8px 10px}
+.kpi .k{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.kpi .v{font-family:"IBM Plex Mono",monospace;font-size:22px;font-weight:600}
+.kpi .s{display:block;font-size:12px;color:var(--muted)}
+.grid{display:grid;gap:14px}.g2{grid-template-columns:1.4fr .8fr}.g3{grid-template-columns:1fr 1fr 1fr}
+.card{background:var(--paper);border:1px solid var(--rule-d);padding:12px 14px}
+.wrap{overflow:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:6px 7px;border-bottom:1px solid var(--ink);white-space:nowrap}
+td{padding:6px 7px;border-bottom:1px solid var(--rule);white-space:nowrap}
+tr:hover td{background:#efe3c8}
+.num{text-align:right;font-family:"IBM Plex Mono",monospace;font-size:13px}
+.click{cursor:pointer}.click:hover{color:var(--gold);text-decoration:underline}
+.badge{display:inline-block;font-size:10px;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--rule-d);padding:1px 6px}
+.badge.up{background:var(--ok);color:#f4efe3;border-color:var(--ok)}
+.badge.dn{background:var(--hot);color:#fff;border-color:var(--hot)}
+.form span{display:inline-grid;place-items:center;width:15px;height:15px;font-size:9px;font-weight:700;font-family:"IBM Plex Mono",monospace;margin-right:2px}
+.form .W,.form .Wp{background:var(--ok);color:#fff}
+.form .L,.form .Lp{background:var(--hot);color:#fff}
+.form .D{background:var(--gold-b);color:#1c1812}
+.clubs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.clubcard{cursor:pointer}.clubcard:hover{border-color:var(--ink)}
+.clubcard .nm{font-family:"Playfair Display",Georgia,serif;font-size:20px}
+.meta{display:flex;gap:12px;flex-wrap:wrap;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted)}
+.row{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px solid var(--rule)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:4px 16px}
+.two div{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed var(--rule);font-size:14px}
+.two span{color:var(--muted)}
+.honor{border:1px solid var(--rule);padding:6px 8px;font-size:13px;background:#fffaf0}
+.honor b{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.pillrow{display:flex;flex-wrap:wrap;gap:6px}
+.pos{color:var(--ok)}.neg{color:var(--hot)}.tiny{font-size:13px;color:var(--muted)}
+.pageact{display:flex;gap:6px;margin:8px 0 14px;flex-wrap:wrap}
+.pageact button{background:#fffaf0;border:1px solid var(--rule-d);padding:5px 10px;cursor:pointer}
+.pageact button.on{background:var(--ink);color:var(--paper)}
+svg.spark{width:100%;height:64px;display:block}
+.scoreline{font-family:"Playfair Display",Georgia,serif;font-size:28px;text-align:center;padding:8px 0 12px}
+textarea.cql{width:100%;min-height:90px;padding:8px;font-family:"IBM Plex Mono",monospace;font-size:13px;background:#fffaf0;border:1px solid var(--rule-d)}
+.cql-help{font-size:13px;color:var(--muted);margin:8px 0 12px}
+.cql-help code{font-family:"IBM Plex Mono",monospace;color:var(--ink)}
+pre.spec{font-family:"IBM Plex Mono",monospace;font-size:12px;background:#fffaf0;border:1px solid var(--rule);padding:12px;overflow:auto;white-space:pre-wrap}
+@media(max-width:1100px){.g2,.g3,.kpis,.clubs{grid-template-columns:1fr 1fr}}
+@media(max-width:720px){.kpis,.g2,.g3,.clubs{grid-template-columns:1fr}.brand{font-size:32px}.tools input{width:100%}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="mast">
+<div class="mast-top">
+<div>
+<div class="org" id="org">Competitive Athletics &amp; Sports Promotion</div>
+<div class="brand" id="brand">CASPER <small id="tagline">Competition Archive &amp; Historical Record</small></div>
+</div>
+<div class="tools">
+<select id="seasonSel" title="Season"></select>
+<select id="sectorSel" title="Sector"></select>
+<input id="q" placeholder="Search player, club, cup" />
+<button type="button" id="goSearch">Index</button>
+</div>
+</div>
+<div class="dateline">
+<span id="dateLine">Archive desk</span>
+<span id="countLine">Loading manifest…</span>
+</div>
+</header>
+<nav class="tabs" id="tabs"></nav>
+<main class="view" id="view"><p class="tiny">Opening data/manifest.json…</p></main>
+</div>
+<script src="core.js"></script>
+<script src="ui.js"></script>
+</body>
+</html>
