@@ -1,0 +1,54 @@
+# CASPER Sports Notation 2.1
+# Matches CSV: home,away,hg,ag,stage,pens,yc,rc[,shH,sotH,thH,shA,sotA,thA]
+# tel=1 means Shots + SoT + Throws are recorded. sec= sector number.
+# One club per owner.
+
+[
+id=pc26b;
+e=Pioneer Cup;
+s=2026B;
+fmt=rsk;
+t=14;
+sec=1;
+tel=1;
+dos=21092026;
+doc=;
+sts=Ongoing;
+
+n(
+  Anish=Black Bird United;
+  Bhavesh=Kolkata Kous;
+  Vyom=New Athletico Saltlake;
+  Arjun=Real Saltlake;
+  Divyanshu=Modo FC;
+  Srinjoy=Super Strikers CF;
+  Anshuman=Romano United;
+  Rounak=Inter Grande CF;
+  Aryan=Vostok CF;
+  Rajdeep=Horsemen United;
+  Dhruv=Yoboys FC;
+  Aarav=Akkarian FC;
+)
+
+grp(
+  A>Srinjoy, Anshuman, Divyanshu;
+  B>Anish, Vyom, Dhruv;
+  C>Arjun, Bhavesh, Aarav;
+  D>Rounak, Aryan, Rajdeep;
+)
+
+m(
+  home,away,hg,ag,stage,pens,yc,rc,shH,sotH,thH,shA,sotA,thA
+  Anish,Vyom,5,3,GS,,,,16,9,8,12,6,7
+  Aarav,Arjun,1,3,GS,,,,8,3,6,13,7,5
+  Anshuman,Srinjoy,4,2,GS,,,,14,8,7,11,5,6
+  Dhruv,Anish,3,4,GS,,,,13,7,6,15,8,8
+  Rounak,Aryan,1,0,GS,,,,9,4,5,10,3,6
+  Aryan,Rajdeep,0,1,GS,,,,11,3,7,8,4,5
+)
+
+nt(
+  2026B Pioneer Cup. First competition with telemetry (shots, shots on target, throws).
+)
+
+]
