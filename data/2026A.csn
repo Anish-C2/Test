@@ -1,0 +1,593 @@
+# Matches CSV: home,away,hg,ag,stage,pens,yc,rc
+# tel=0/1 telemetry. sec= sector. One club per owner.
+# CASPER Sports Notation 2.1 — player-name CSN
+# Generated from the brace dump. Elo seeds in the dump are ignored; the desk opens everyone at 100.
+
+[
+id=pc26a;
+e=Pioneer Cup;
+s=2026A;
+fmt=rsk;
+t=8;
+sec=1;
+tel=0;
+dos=12092026;
+doc=30112026;
+sts=Completed;
+
+n(
+  Anish=Black Bird United;
+  Bhavesh=Kolkata Kous;
+  Vyom=New Athletico Saltlake;
+  Arjun=Real Saltlake;
+  Divyanshu=Modo FC;
+  Srinjoy=Super Strikers CF;
+  Anshuman=Romano United;
+  Rounak=Inter Grande CF;
+  Gourav=Movile;
+  Aryan=Vostok CF;
+  Rajdeep=Horsemen United;
+  Anirban=Martians;
+)
+
+grp(
+  A>Anish, Arjun, Anshuman;
+  B>Vyom, Srinjoy, Aryan;
+  C>Bhavesh, Rajdeep, Divyanshu;
+  D>Anirban, Rounak, Gourav;
+)
+
+m(
+  home,away,hg,ag,stage,pens,yc,rc
+  Arjun,Anshuman,2,1,GS,,1-0,
+  Anish,Arjun,7,4,GS,,,
+  Anshuman,Anish,0,1,GS,,,
+  Srinjoy,Vyom,2,2,GS,,,
+  Aryan,Srinjoy,3,2,GS,,,
+  Vyom,Aryan,1,3,GS,,,
+  Divyanshu,Rajdeep,2,3,GS,,,
+  Bhavesh,Divyanshu,2,2,GS,,,
+  Rajdeep,Bhavesh,0,1,GS,,,
+  Anirban,Rounak,6,2,GS,,,
+  Gourav,Anirban,0,0,GS,,1-1,
+  Rounak,Gourav,4,5,GS,,,
+  Anish,Srinjoy,4,2,QF,,,
+  Rajdeep,Anirban,1,3,QF,,0-1,0-1
+  Bhavesh,Gourav,5,3,QF,,,
+  Arjun,Aryan,2,2,QF,2-1,,
+  Anish,Anirban,5,2,SF,,,
+  Bhavesh,Arjun,1,1,SF,1-0,,
+  Anirban,Arjun,0,1,TP,,,
+  Anish,Bhavesh,3,3,F,2-0,,
+)
+
+aw{
+  Champion=Anish;
+  Champion Club=Black Bird United;
+  Runner-up=Bhavesh;
+  Runner-up Club=Kolkata Kous;
+  Underdog=Bhavesh;
+  Golden Boot=Anish;
+  Iron Wall=Bhavesh;
+  Best Goal=Anish;
+  Giant Killer=Aryan;
+  Fair Play=Aryan;
+  Third Place=Arjun;
+  Third Place Club=Real Saltlake;
+  Fourth Place=Anirban;
+  Fourth Place Club=Martians;
+  Comeback Specialist=Anish;
+  Penalty Specialist=Anish;
+  Clutch Player=Bhavesh;
+  Record Breaker=Anish;
+  Golden Match Ball=Anish;
+}
+
+nt(
+  Inaugural Edition
+)
+
+]
+
+[
+id=rc26a;
+e=Relegator Cup;
+s=2026A;
+fmt=ko;
+t=4;
+sec=1;
+tel=0;
+dos=05082026;
+doc=07082026;
+sts=Completed;
+
+n(
+  Anshuman=Romano United;
+  Rounak=Inter Grande CF;
+  Vyom=New Athletico Saltlake;
+  Divyanshu=Modo FC;
+)
+
+m(
+  home,away,hg,ag,stage,pens,yc,rc
+  Anshuman,Vyom,0,0,SF,1-2,,
+  Divyanshu,Rounak,0,0,SF,2-1,,
+  Vyom,Divyanshu,3,2,F,,,
+)
+
+aw{
+  Champion=Vyom;
+  Champion Club=New Athletico Saltlake;
+  Runner-up=Divyanshu;
+  Runner-up Club=Modo FC;
+  Golden Boot=Vyom;
+  Golden Match Ball=Vyom;
+}
+
+nt(
+  First ever Relegator Cup
+)
+
+]
+
+[
+id=csc26a;
+e=Chroma Super Cup;
+s=2026A;
+fmt=ko;
+t=2;
+sec=1;
+tel=0;
+dos=07082026;
+doc=07082026;
+sts=Completed;
+
+n(
+  Anish=Black Bird United;
+  Vyom=New Athletico Saltlake;
+)
+
+m(
+  home,away,hg,ag,stage,pens,yc,rc
+  Anish,Vyom,7,3,F,,1-0,0-1
+)
+
+aw{
+  Champion=Anish;
+  Champion Club=Black Bird United;
+  Runner-up=Vyom;
+  Runner-up Club=New Athletico Saltlake;
+  Record Breaker=Anish;
+  Golden Match Ball=Anish;
+}
+
+nt(
+  A Super Cup between the champions of the Relegator Cup and Pioneer Cup
+)
+
+]
+
+[
+id=gr26a;
+e=Grande;
+s=2026A;
+fmt=ko;
+t=8;
+sec=1;
+tel=0;
+dos=07082026;
+doc=13082026;
+sts=Completed;
+
+n(
+  Anish=Black Bird United;
+  Bhavesh=Kolkata Kous;
+  Arjun=Real Saltlake;
+  Srinjoy=Super Strikers CF;
+  Gourav=Movile;
+  Aryan=Vostok CF;
+  Rajdeep=Horsemen United;
+  Anirban=Martians;
+)
+
+m(
+  home,away,hg,ag,stage,pens,yc,rc
+  Bhavesh,Rajdeep,3,3,QF,1-0,,
+  Arjun,Anirban,3,3,QF,2-3,,
+  Anish,Gourav,7,1,QF,,,
+  Srinjoy,Aryan,4,1,QF,,,
+  Anish,Srinjoy,8,0,SF,,,
+  Bhavesh,Anirban,3,1,SF,,,
+  Srinjoy,Anirban,2,2,TP,3-1,,
+  Bhavesh,Anish,4,4,F,2-1,,
+)
+
+aw{
+  Champion=Bhavesh;
+  Champion Club=Kolkata Kous;
+  Runner-up=Anish;
+  Runner-up Club=Black Bird United;
+  Golden Boot=Anish;
+  Best Goal=Anish;
+  Player of the Tournament=Anish;
+  Iron Wall=Anish;
+  Underdog=Srinjoy;
+  Third Place=Srinjoy;
+  Third Place Club=Super Strikers CF;
+  Fourth Place=Anirban;
+  Fourth Place Club=Martians;
+  Giant Killer=Srinjoy;
+  Comeback Specialist=Bhavesh;
+  Record Breaker=Anish;
+  Clutch Player=Srinjoy;
+  Penalty Specialist=Bhavesh;
+  Golden Match Ball=Anish;
+}
+
+nt(
+  Direct knockout cup
+)
+
+]
+
+[
+id=cl26a;
+e=Conference League;
+s=2026A;
+fmt=rr;
+t=4;
+sec=1;
+tel=0;
+dos=12082026;
+doc=14082026;
+sts=Completed;
+
+n(
+  Arjun=Real Saltlake;
+  Gourav=Movile;
+  Aryan=Vostok CF;
+  Rajdeep=Horsemen United;
+)
+
+m(
+  home,away,hg,ag,stage,pens,yc,rc
+  Arjun,Rajdeep,0,0,GS,,,
+  Gourav,Aryan,0,1,GS,,,
+  Gourav,Rajdeep,0,1,GS,,,
+  Arjun,Gourav,1,0,GS,,,
+  Arjun,Aryan,1,0,GS,,,
+  Aryan,Rajdeep,1,0,GS,,,
+)
+
+aw{
+  Champion=Arjun;
+  Champion Club=Real Saltlake;
+  Runner-up=Aryan;
+  Runner-up Club=Vostok CF;
+  Third Place=Rajdeep;
+  Third Place Club=Horsemen United;
+  Golden Boot=Aryan;
+  Iron Wall=Arjun;
+  Fair Play=Gourav;
+  Golden Match Ball=Arjun;
+  Fourth Place=Gourav;
+  Fourth Place Club=Movile;
+}
+
+]
+
+[
+id=prc26a;
+e=Peripheral Cup;
+s=2026A;
+fmt=rr;
+t=4;
+sec=1;
+tel=0;
+dos=12082026;
+doc=14082026;
+sts=Completed;
+
+n(
+  Anshuman=Romano United;
+  Rounak=Inter Grande CF;
+  Vyom=New Athletico Saltlake;
+  Divyanshu=Modo FC;
+)
+
+m(
+  home,away,hg,ag,stage,pens,yc,rc
+  Anshuman,Rounak,1,1,GS,,,
+  Anshuman,Vyom,1,3,GS,,,
+  Anshuman,Divyanshu,0,1,GS,,,
+  Rounak,Vyom,2,2,GS,,,
+  Divyanshu,Rounak,1,3,GS,,,
+  Vyom,Divyanshu,0,0,GS,,,
+)
+
+aw{
+  Champion=Rounak;
+  Champion Club=Inter Grande CF;
+  Runner-up=Vyom;
+  Runner-up Club=New Athletico Saltlake;
+  Third Place=Divyanshu;
+  Third Place Club=Modo FC;
+  Golden Boot=Rounak;
+  Iron Wall=Divyanshu;
+  Golden Match Ball=Rounak;
+  Fair Play=Anshuman;
+}
+
+]
+
+[
+id=pl26a;
+e=Premier League;
+s=2026A;
+fmt=rr;
+t=4;
+sec=1;
+tel=0;
+dos=13082026;
+doc=14082026;
+sts=Completed;
+
+n(
+  Bhavesh=Kolkata Kous;
+  Anish=Black Bird United;
+  Srinjoy=Super Strikers CF;
+  Anirban=Martians;
+)
+
+m(
+  home,away,hg,ag,stage,pens,yc,rc
+  Anish,Srinjoy,5,2,GS,,,
+  Anish,Anirban,2,1,GS,,,
+  Anirban,Srinjoy,2,2,GS,,,
+  Bhavesh,Srinjoy,1,0,GS,,,
+  Anirban,Bhavesh,0,1,GS,,,
+  Bhavesh,Anish,2,5,GS,,,
+)
+
+aw{
+  Champion=Anish;
+  Champion Club=Black Bird United;
+  Runner-up=Bhavesh;
+  Runner-up Club=Kolkata Kous;
+  Third Place=Anirban;
+  Third Place Club=Martians;
+  Golden Boot=Anish;
+  Iron Wall=Anirban;
+  Best Goal=Anish;
+  Record Breaker=Anish;
+  Golden Match Ball=Anish;
+}
+
+]
+
+[
+id=sc26a;
+e=SuperCup;
+s=2026A;
+fmt=ko;
+t=2;
+sec=1;
+tel=0;
+dos=18082026;
+doc=18082026;
+sts=Completed;
+
+n(
+  Anish=Black Bird United;
+  Bhavesh=Kolkata Kous;
+)
+
+m(
+  home,away,hg,ag,stage,pens,yc,rc
+  Anish,Bhavesh,1,3,F,,,
+)
+
+aw{
+  Champion=Bhavesh;
+  Champion Club=Kolkata Kous;
+  Runner-up=Anish;
+  Runner-up Club=Black Bird United;
+  Golden Match Ball=Bhavesh;
+}
+
+]
+
+[
+id=msc26a;
+e=Minor Supercup;
+s=2026A;
+fmt=ko;
+t=2;
+sec=1;
+tel=0;
+dos=18082026;
+doc=18082026;
+sts=Completed;
+
+n(
+  Vyom=New Athletico Saltlake;
+  Rounak=Inter Grande CF;
+)
+
+m(
+  home,away,hg,ag,stage,pens,yc,rc
+  Vyom,Rounak,1,2,F,,,
+)
+
+aw{
+  Champion=Rounak;
+  Champion Club=Inter Grande CF;
+  Runner-up=Vyom;
+  Runner-up Club=New Athletico Saltlake;
+  Golden Match Ball=Rounak;
+}
+
+nt(
+  A Super Cup between the champions of the Relegator Cup and Peripheral Cup
+)
+
+]
+
+[
+id=ssc26a;
+e=Sub Supercup;
+s=2026A;
+fmt=ko;
+t=2;
+sec=1;
+tel=0;
+dos=18082026;
+doc=18082026;
+sts=Completed;
+
+n(
+  Arjun=Real Saltlake;
+  Rounak=Inter Grande CF;
+)
+
+m(
+  home,away,hg,ag,stage,pens,yc,rc
+  Arjun,Rounak,1,0,F,,,
+)
+
+aw{
+  Champion=Arjun;
+  Champion Club=Real Saltlake;
+  Runner-up=Rounak;
+  Runner-up Club=Inter Grande CF;
+  Golden Match Ball=Arjun;
+}
+
+nt(
+  A Super Cup between the champions of the Conference League and Minor Supercup
+)
+
+]
+
+[
+id=fn26a;
+e=Finale;
+s=2026A;
+tag=golden;
+fmt=ko;
+t=4;
+sec=1;
+tel=0;
+dos=19082026;
+doc=21082026;
+sts=Completed;
+
+n(
+  Anish=Black Bird United;
+  Srinjoy=Super Strikers CF;
+  Bhavesh=Kolkata Kous;
+  Arjun=Real Saltlake;
+)
+
+m(
+  home,away,hg,ag,stage,pens,yc,rc
+  Anish,Srinjoy,3,3,SF,2-1,,
+  Bhavesh,Arjun,0,1,SF,,,
+  Anish,Arjun,1,1,F,2-0,,
+)
+
+aw{
+  Champion=Anish;
+  Champion Club=Black Bird United;
+  Runner-up=Arjun;
+  Runner-up Club=Real Saltlake;
+  Golden Match Ball=Anish;
+  Third Place=Srinjoy;
+  Third Place Club=Super Strikers CF;
+  Fourth Place=Bhavesh;
+  Fourth Place Club=Kolkata Kous;
+  Penalty Specialist=Anish;
+  Golden Boot=Anish;
+  Iron Wall=Arjun;
+  Clutch Player=Arjun;
+  Comeback Specialist=Anish;
+}
+
+nt(
+  The concluding championship of the 2026A season.
+)
+
+]
+
+[
+id=sla26a;
+e=SuperLeague A;
+s=2026A;
+fmt=rr;
+t=4;
+sec=2;
+tel=0;
+dos=03092026;
+sts=Ongoing;
+
+n(
+  Anish=Black Bird United;
+  Rudra=Park Circle;
+  Rio=Red Tigers FC;
+  Pian=Jaguar FC;
+)
+
+m(
+  home,away,hg,ag,stage,pens,yc,rc
+  Anish,Rudra,4,4,GS,,,
+  Rio,Pian,5,5,GS,,,
+  Anish,Rudra,7,7,GS,,,
+  Anish,Pian,6,4,GS,,,
+  Anish,Rio,7,3,GS,,,
+  Anish,Pian,8,5,GS,,,
+  Rio,Pian,5,5,GS,,,
+  Anish,Rio,5,5,GS,,,
+  Anish,Rio,9,9,GS,,,
+)
+
+nt(
+  SuperLeague A of the 2026A season.
+)
+
+]
+
+[
+id=slb26a;
+e=SuperLeague B;
+s=2026A;
+fmt=rr;
+t=4;
+sec=2;
+tel=0;
+dos=03092026;
+sts=Ongoing;
+
+n(
+  Anish=Black Bird United;
+  Rudra=Park Circle;
+  Rio=Red Tigers FC;
+  Pian=Jaguar FC;
+)
+
+m(
+  home,away,hg,ag,stage,pens,yc,rc
+  Anish,Rio,5,5,GS,,,
+  Anish,Rudra,4,4,GS,,,
+  Anish,Rudra,6,6,GS,,,
+  Anish,Pian,8,0,GS,,,
+  Rio,Pian,6,4,GS,,,
+  Anish,Pian,30,4,GS,,,
+  Rio,Pian,5,3,GS,,,
+  Rio,Pian,15,16,GS,,,
+)
+
+nt(
+  SuperLeague B of the 2026A season.
+)
+
+]
