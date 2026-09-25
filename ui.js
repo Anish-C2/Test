@@ -248,7 +248,7 @@ async function loadAll() {
     for (const entry of (man.seasons || [])) {
       const raw = await fetch(DATA_ROOT + entry.file).then(r => { if (!r.ok) throw new Error(entry.file + " " + r.status); return r.text(); });
       const parsed = parseCSN(raw);
-      parsed.comps.forEach(c => { if (!c.season) c.season = entry.id; c.sport = entry.sport || "futsal"; });
+      parsed.comps.forEach(c => { c.season = entry.id; c.sport = entry.sport || "futsal"; });
       STATE.allComps.push(...parsed.comps);
     }
     const sel = $("#seasonSel");
