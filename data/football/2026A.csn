@@ -12,8 +12,8 @@ sts=Completed;
 prd=S1;
 
 n(
-bbu=Black Bird United[Anish],
-rsa=Real Saltlake[Arjun]
+Anish=Black Bird United,
+Arjun=Real Saltlake
 );
 
 sq(
@@ -22,18 +22,18 @@ rsa=Arjun(c),Aarav(vc),Pronob(gk),Rajdeep|Divyanshu(gk),Promit
 );
 
 m(
-bbu-rsa:3-6(gh=Anish*3,ga=Arjun*2+Promit*2+Anshuman*2,ah=Anish*1+Srinjoy*1,aa=Arjun*3+Anshuman*1)#1;
-bbu-rsa:4-2(gh=Anish*2+Srinjoy*2,ga=Arjun*2,ah=Anish*1+Srinjoy*1+Gourav*1,aa=Arjun*1+Anshuman*1)#2;
-bbu-rsa:5-2(gh=Anish*3+Srinjoy*1+Gourav*1,ga=Arjun*2,ah=Anish*1+Srinjoy*1,aa=Arjun*1+Aarav*1)#3;
-bbu-rsa:1-4(gh=Anish*1,ga=Arjun*2+Aarav*2,aa=Arjun*2+Aarav*1)#4;
-bbu-rsa:6-1(gh=Anish*3+Anirban*3,ga=Aarav*1,ah=Anish*2+Srinjoy*1+Anirban*1,aa=Arjun*1)#5;
-bbu-rsa:2-0(gh=Anish*1+Anirban*1,ah=Anish*1+Anirban*1)#6;
-bbu-rsa:2-0(gh=Anish*2)#7
+Anish-Arjun:3-6(gh=Anish*3,ga=Arjun*2+Promit*2+Anshuman*2,ah=Anish*1+Srinjoy*1,aa=Arjun*3+Anshuman*1)#1;
+Anish-Arjun:4-2(gh=Anish*2+Srinjoy*2,ga=Arjun*2,ah=Anish*1+Srinjoy*1+Gourav*1,aa=Arjun*1+Anshuman*1)#2;
+Anish-Arjun:5-2(gh=Anish*3+Srinjoy*1+Gourav*1,ga=Arjun*2,ah=Anish*1+Srinjoy*1,aa=Arjun*1+Aarav*1)#3;
+Anish-Arjun:1-4(gh=Anish*1,ga=Arjun*2+Aarav*2,aa=Arjun*2+Aarav*1)#4;
+Anish-Arjun:6-1(gh=Anish*3+Anirban*3,ga=Aarav*1,ah=Anish*2+Srinjoy*1+Anirban*1,aa=Arjun*1)#5;
+Anish-Arjun:2-0(gh=Anish*1+Anirban*1,ah=Anish*1+Anirban*1)#6;
+Anish-Arjun:2-0(gh=Anish*2)#7
 );
 
 aw(
-ch=bbu;
-ru=rsa;
+ch=Anish;
+ru=Arjun;
 Playmaker Award=Arjun;
 gb=Anish;
 poty=Anish;
