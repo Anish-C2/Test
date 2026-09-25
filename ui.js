@@ -47,6 +47,7 @@ function telBlock(p) {
 function viewHome() {
   const t = STATE.db.totals;
   const table = Object.values(STATE.db.players).sort((a, b) => b.elo - a.elo);
+  if (!STATE.db.comps.length) return `<h1>${esc(STATE.sports[STATE.currentSport]?.label || STATE.currentSport)}</h1><p class="sub">Dedicated sports archive</p><div class="card"><h3>Archive awaiting data</h3><p class="tiny">This sport has its own isolated pages and statistics. Add competitions to its season files in data/manifest.json to populate the archive. No results or player stats have been fabricated.</p></div>`;
   return `<h1>${esc(scopeLabel())}</h1><p class="sub">One club per owner. Elo opens at ${ELO0}.</p>
     <div class="kpis">${kpi("Matches", t.matches, t.goals + " goals")}${kpi("Players", t.players, t.clubs + " clubs")}${kpi("Top Elo", table[0] ? fmt(table[0].elo, 1) : "—", table[0] ? table[0].name : "")}${t.telMatches ? kpi("Telemetry", t.telMatches, "xG " + fmt(t.xG, 1)) : ""}</div>
     <div class="card"><h3>Elo table</h3>${eloTable(table)}</div>`;
@@ -150,6 +151,7 @@ function renderTabs(active) {
 }
 function filteredComps(mode, seasonId, sector) {
   return STATE.allComps.filter(c => {
+    if ((c.sport || "futsal") !== STATE.currentSport) return false;
     if (mode !== "global" && seasonId && c.season !== seasonId) return false;
     if (sector && +c.sec !== +sector) return false;
     return true;
@@ -232,6 +234,12 @@ async function loadAll() {
   try {
     const man = await fetch(DATA_ROOT + "manifest.json").then(r => { if (!r.ok) throw new Error("manifest.json " + r.status); return r.json(); });
     STATE.manifest = man;
+    STATE.sports = man.sports || { futsal: { label: "Futsal" }, cricsal: { label: "Cricsal" }, football: { label: "Football" }, handcricket: { label: "HandCricket" } };
+    STATE.currentSport = sessionStorage.getItem("casper-sport") || man.defaultSport || "futsal";
+    const sportSel = $("#sportSel");
+    sportSel.innerHTML = Object.entries(STATE.sports).map(([id, s]) => `<option value="${id}">${esc(s.label || id)}</option>`).join("");
+    sportSel.value = STATE.currentSport;
+    sportSel.onchange = () => { STATE.currentSport = sportSel.value; sessionStorage.setItem("casper-sport", STATE.currentSport); const next = (man.seasons || []).find(s => (s.sport || "futsal") === STATE.currentSport); if (next) { STATE.season = next; setScope("season", next.id, null); } else setScope("global", null, null); };
     if (man.sectors) Object.assign(SECTOR_NAMES, man.sectors);
     $("#brand").innerHTML = esc(man.brand || "CASPER") + ` <small id="tagline">${esc(man.tagline || "")}</small>`;
     if (man.org) $("#org").textContent = man.org;
@@ -240,7 +248,7 @@ async function loadAll() {
     for (const entry of (man.seasons || [])) {
       const raw = await fetch(DATA_ROOT + entry.file).then(r => { if (!r.ok) throw new Error(entry.file + " " + r.status); return r.text(); });
       const parsed = parseCSN(raw);
-      parsed.comps.forEach(c => { if (!c.season) c.season = entry.id; });
+      parsed.comps.forEach(c => { if (!c.season) c.season = entry.id; c.sport = entry.sport || "futsal"; });
       STATE.allComps.push(...parsed.comps);
     }
     const sel = $("#seasonSel");
