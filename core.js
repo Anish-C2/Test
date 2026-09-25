@@ -128,9 +128,16 @@ function parseMatches(block, names) {
   }
   lines.forEach(line => {
     const mm = line.match(/^(.+?)-(.+?):(\d+)-(\d+)(?:\(([^)]*)\))?#([A-Za-z0-9]+)$/);
-    if (!mm) return;
+    if (mm) {
+      no++;
+      matches.push({ no, home: mm[1], away: mm[2], homeClub: names[mm[1]] || mm[1], awayClub: names[mm[2]] || mm[2], hg: +mm[3], ag: +mm[4], pens: "", stage: mm[6], yc: "", rc: "", tel: false });
+      return;
+    }
+    // Cricket-style innings notation, e.g. 26/0(1.0)-0/1(0.1).
+    const cricket = line.match(/^(.+?)-(.+?):(\d+)\/\d+(?:\([^)]*\))?-(\d+)\/\d+(?:\([^)]*\))?#([A-Za-z0-9]+)$/);
+    if (!cricket) return;
     no++;
-    matches.push({ no, home: mm[1], away: mm[2], homeClub: names[mm[1]] || mm[1], awayClub: names[mm[2]] || mm[2], hg: +mm[3], ag: +mm[4], pens: "", stage: mm[6], yc: "", rc: "", tel: false });
+    matches.push({ no, home: cricket[1], away: cricket[2], homeClub: names[cricket[1]] || cricket[1], awayClub: names[cricket[2]] || cricket[2], hg: +cricket[3], ag: +cricket[4], pens: "", stage: cricket[5], yc: "", rc: "", tel: false });
   });
   return matches;
 }
