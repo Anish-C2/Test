@@ -19,6 +19,18 @@
       "label": "2026B",
       "file": "2026B.csn",
       "sport": "futsal"
+    },
+    {
+      "id": "2026A-football",
+      "label": "2026A · Football",
+      "file": "football/2026A.csn",
+      "sport": "football"
+    },
+    {
+      "id": "2026A-cricsal",
+      "label": "2026A · Cricsal",
+      "file": "cricsal/2026A.csn",
+      "sport": "cricsal"
     }
   ],
   "defaultSport": "futsal",
