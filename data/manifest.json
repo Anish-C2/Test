@@ -1,14 +1,39 @@
 {
   "brand": "CASPER",
   "org": "Competitive Athletics & Sports Promotion",
-  "tagline": "Futsal archive",
+  "tagline": "Multi-sport competition archive",
   "defaultSeason": "2026A",
   "sectors": {
     "1": "Cups & Leagues",
     "2": "SuperLeague"
   },
   "seasons": [
-    { "id": "2026A", "label": "2026A", "file": "2026A.csn" },
-    { "id": "2026B", "label": "2026B", "file": "2026B.csn" }
-  ]
+    {
+      "id": "2026A",
+      "label": "2026A",
+      "file": "2026A.csn",
+      "sport": "futsal"
+    },
+    {
+      "id": "2026B",
+      "label": "2026B",
+      "file": "2026B.csn",
+      "sport": "futsal"
+    }
+  ],
+  "defaultSport": "futsal",
+  "sports": {
+    "cricsal": {
+      "label": "Cricsal"
+    },
+    "futsal": {
+      "label": "Futsal"
+    },
+    "football": {
+      "label": "Football"
+    },
+    "handcricket": {
+      "label": "HandCricket"
+    }
+  }
 }
