@@ -1,0 +1,31 @@
+[
+id=tc26a;
+e=Titan Cup;
+s=2026A;
+ed=1;
+org=CASPER;
+fmt=6-ball innings;
+t=4;
+ov=1;
+wk=1;
+lvl=Cricket Crown;
+sts=Completed;
+
+n(
+bbu=Black Bird United[Anish],
+mar=Martians[Anirban],
+ssc=Super Strikers CF[Srinjoy],
+nas=New Athletico Saltlake[Vyom]
+);
+
+m(
+bbu-mar:26/0(1.0)-0/1(0.1)#SF;
+nas-ssc:12/1(1.0)-10/1(0.3)#SF;
+bbu-nas:18/0(1.0)-16/0(1.0)#F
+);
+
+aw(
+ch=bbu;
+ru=nas
+);
+]
