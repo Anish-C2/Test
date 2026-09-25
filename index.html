@@ -77,6 +77,8 @@ textarea.cql{width:100%;min-height:90px;padding:8px;font-family:"IBM Plex Mono",
 pre.spec{font-family:"IBM Plex Mono",monospace;font-size:12px;background:#fffaf0;border:1px solid var(--rule);padding:12px;overflow:auto;white-space:pre-wrap}
 @media(max-width:1100px){.g2,.g3,.kpis,.clubs{grid-template-columns:1fr 1fr}}
 @media(max-width:720px){.kpis,.g2,.g3,.clubs{grid-template-columns:1fr}.brand{font-size:32px}.tools input{width:100%}}
+/* Refined analytics styling */
+.mast{background:linear-gradient(115deg,#101923,#1d2a37 72%,#2c3a4a);color:#f7f1e6;border-bottom:3px solid #b8954a}.org,.brand small,.dateline{color:#d4c7ad}.dateline{border-color:#596574}.tools select,.tools input,.tools button{background:#f7f1e6;border:1px solid #b8954a;border-radius:6px}.tabs{background:#1d2a37;border-bottom:2px solid #b8954a;position:sticky;top:0;z-index:20}.tabs a{color:#e9e0ce;border-right:1px solid #42505f;padding:10px 14px}.tabs a:hover{background:#344454;color:#fff}.tabs a.on{background:#c6a15b;color:#101923;font-weight:700}.view{max-width:1320px;padding:26px clamp(14px,3vw,34px) 90px}.kpi{border-radius:10px;border-color:#c6b895;box-shadow:0 2px 7px #342b1710;padding:14px}.kpi .v{font-size:clamp(21px,2.5vw,30px);color:#182637}.card{border-radius:10px;box-shadow:0 2px 8px #342b170a}.clubcard{transition:transform .15s ease,box-shadow .15s ease}.clubcard:hover{transform:translateY(-2px);box-shadow:0 7px 18px #342b1718}@media(max-width:720px){.mast{padding:14px}.tools{width:100%}.tools select,.tools input,.tools button{flex:1;min-width:0}.tabs{overflow-x:auto;flex-wrap:nowrap}.tabs a{white-space:nowrap}.view{padding-top:18px}}
 </style>
 </head>
 <body>
@@ -88,6 +90,7 @@ pre.spec{font-family:"IBM Plex Mono",monospace;font-size:12px;background:#fffaf0
 <div class="brand" id="brand">CASPER <small id="tagline">Competition Archive &amp; Historical Record</small></div>
 </div>
 <div class="tools">
+<select id="sportSel" title="Sport"><option value="futsal">Futsal</option></select>
 <select id="seasonSel" title="Season"></select>
 <select id="sectorSel" title="Sector"></select>
 <input id="q" placeholder="Search player, club, cup" />
