@@ -12,11 +12,11 @@ const state = {
 };
 
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({
-  "&": "&",
-  "<": "<",
-  ">": ">",
-  '"': """,
-  "'": "&#39;"
+  "&": "\\u0026amp;",
+  "<": "\\u0026lt;",
+  ">": "\\u0026gt;",
+  '"': "\\u0026quot;",
+  "'": "\\u0026#39;"
 }[c]));
 
 const slug = s => String(s || "").toLowerCase()
@@ -238,7 +238,6 @@ function parseCSN(text) {
 
       const [, home, away, score, stage] = m;
 
-      // Ordinary numeric scorelines only.
       const numeric = score.match(
         /^\s*(\d+)\s*-\s*(\d+)(?=\s*(?:\(|$))/
       );
@@ -306,12 +305,8 @@ function parseCSN(text) {
   });
 }
 
-/* =========================
-   DATA HELPERS
-========================= */
-
 function getTeamName(record, code) {
-  return record.teams?.[code]?.name || code || "—";
+  return record.teams?.[code]?.name || code || "-";
 }
 
 function allTeams() {
@@ -529,10 +524,6 @@ function totalStats() {
   };
 }
 
-/* =========================
-   UI HELPERS
-========================= */
-
 function badge(s) {
   return `<span class="badge ${
     /ongoing|live/i.test(s) ? "live" : /complete/i.test(s) ? "done" : ""
@@ -595,10 +586,6 @@ function pageTitle(kicker, title, sub = "") {
   </div>`;
 }
 
-/* =========================
-   PAGES
-========================= */
-
 function home() {
   const totals = totalStats();
   const recent = state.archive.flatMap(c =>
@@ -642,7 +629,7 @@ function home() {
   ${section("Browse by Sport")}
   <div class="sportgrid">${state.config.sports.map(s => `
     <a class="sporttile" href="#/sport/${encodeURIComponent(s.id)}">
-      <span>${esc(s.icon || "◆")}</span>
+      <span>${esc(s.icon || "*")}</span>
       <b>${esc(s.name)}</b>
       <small>${state.archive.filter(c => c.sport === s.id).length} competitions</small>
     </a>`).join("")}
@@ -675,10 +662,10 @@ function sportsPage(id) {
       ${section("Sport-wide club table")}${standingsTable(statsForSport(id))}`;
   }
 
-  return pageTitle("THE SPORTING DIRECTORY", "All Sports", "The federation’s sports catalog is configuration-driven.") +
+  return pageTitle("THE SPORTING DIRECTORY", "All Sports", "The federation sports catalog is configuration-driven.") +
     `<div class="sportgrid">${state.config.sports.map(s => `
       <a class="sporttile" href="#/sport/${encodeURIComponent(s.id)}">
-        <span>${esc(s.icon || "◆")}</span>
+        <span>${esc(s.icon || "*")}</span>
         <b>${esc(s.name)}</b>
         <small>${state.archive.filter(c => c.sport === s.id).length} competitions</small>
       </a>`).join("")}</div>`;
@@ -694,7 +681,7 @@ function competitionPage(id) {
       <div><small>SEASON</small><b>${esc(c.season)}</b></div>
       <div><small>TEAMS</small><b>${Object.keys(c.teams || {}).length}</b></div>
       <div><small>MATCHES</small><b>${c.matches.length}</b></div>
-      <div><small>DATES</small><b>${dateFmt(c.startDate)}${c.endDate ? " – " + dateFmt(c.endDate) : ""}</b></div>
+      <div><small>DATES</small><b>${dateFmt(c.startDate)}${c.endDate ? " - " + dateFmt(c.endDate) : ""}</b></div>
     </div>
     <div class="tabs">
       <button data-tab="overview" class="tab active">Overview</button>
@@ -762,7 +749,7 @@ function competitions() {
 
   return pageTitle("OFFICIAL REGISTER", "Competitions", "Search and filter every competition loaded from the data archive.") +
     `<div class="toolbar">
-      <input id="q" placeholder="Search competition, club, format…">
+      <input id="q" placeholder="Search competition, club, format...">
       <select id="filterSport">
         <option value="all">All sports</option>
         ${state.config.sports.map(s => `<option value="${esc(s.id)}">${esc(s.name)}</option>`).join("")}
@@ -804,7 +791,7 @@ function renderComps() {
 function matchesPage() {
   return pageTitle("MATCH DESK", "Fixtures & Results", "Every recorded match across the loaded seasons.") +
     `<div class="toolbar">
-      <input id="mq" placeholder="Search teams, competition, stage…">
+      <input id="mq" placeholder="Search teams, competition, stage...">
       <select id="ms">
         <option value="all">All sports</option>
         ${state.config.sports.map(s => `<option value="${esc(s.id)}">${esc(s.name)}</option>`).join("")}
@@ -862,7 +849,7 @@ function statisticsPage() {
           <div class="awardrow">
             <a href="#/competition/${encodeURIComponent(c.id)}"><b>${esc(c.name)}</b></a>
             <span>${esc(c.season)}</span>
-            <b>${esc(c.teams?.[c.awards.ch]?.name || c.awards.Champion || c.awards.champion || "—")}</b>
+            <b>${esc(c.teams?.[c.awards.ch]?.name || c.awards.Champion || c.awards.champion || "-")}</b>
           </div>`).join("")}
       </section>
       <aside>
@@ -895,7 +882,7 @@ function clubsPage(id) {
 
   return pageTitle("CLUB DIRECTORY", "Registered Clubs", `${clubs.length} unique club names across the archive.`) +
     `<div class="toolbar">
-      <input id="cq" placeholder="Search clubs…">
+      <input id="cq" placeholder="Search clubs...">
       <select id="cs">
         <option value="all">All sports</option>
         ${state.config.sports.map(s => `<option value="${esc(s.id)}">${esc(s.name)}</option>`).join("")}
@@ -940,7 +927,7 @@ function playersPage(id) {
   }
 
   return pageTitle("ATHLETE DIRECTORY", "Players & Personnel", "Names discovered in team contact and squad records.") +
-    `<div class="toolbar"><input id="pq" placeholder="Search people…"></div>
+    `<div class="toolbar"><input id="pq" placeholder="Search people..."></div>
     <div id="playerResults" class="clubgrid"></div>`;
 }
 
@@ -975,7 +962,7 @@ function archivesPage() {
 
 function searchPage() {
   return pageTitle("ARCHIVE SEARCH", "Search CASPER", "Search competition names, clubs, match scores, and award records.") +
-    `<div class="toolbar"><input id="globalq" placeholder="Type to search the archive…" autofocus></div>
+    `<div class="toolbar"><input id="globalq" placeholder="Type to search the archive..." autofocus></div>
     <div id="globalresults"></div>`;
 }
 
@@ -1001,10 +988,6 @@ function notFound() {
   return pageTitle("ARCHIVE NOTICE", "Record Not Found", "This record is not present in the loaded data.") +
     `<a class="inkbutton" href="#/">Return to front page</a>`;
 }
-
-/* =========================
-   HASH ROUTER
-========================= */
 
 function render() {
   const parts = decodeURIComponent(
@@ -1100,10 +1083,6 @@ window.addEventListener("hashchange", () => {
   if (state.config) render();
 });
 
-/* =========================
-   INITIALIZATION
-========================= */
-
 async function init() {
   try {
     const [configRes, csnRes] = await Promise.all([
@@ -1128,7 +1107,7 @@ async function init() {
       <div class="error">
         <h2>Archive data could not be loaded</h2>
         <p>${esc(err.message)}</p>
-        <p>Run <code>python -m http.server 8000</code> from the project folder, then open <code>http://localhost:8000</code>.</p>
+        <p>Run a local web server from the project folder, then open the site.</p>
       </div>`;
   }
 }
