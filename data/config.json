@@ -1,0 +1,63 @@
+{
+  "organization": {
+    "name": "CASPER",
+    "fullName": "Competition · Athletics · Sports · Performance · Excellence · Records",
+    "tagline": "Official Federation Bulletin",
+    "established": "2026"
+  },
+  "sports": [
+    {
+      "id": "football",
+      "name": "Football",
+      "icon": "⚽",
+      "description": "Association football"
+    },
+    {
+      "id": "futsal",
+      "name": "Futsal",
+      "icon": "◉",
+      "description": "Indoor football"
+    },
+    {
+      "id": "cricsal",
+      "name": "Cricsal",
+      "icon": "🏏",
+      "description": "Cricket-format competition"
+    },
+    {
+      "id": "cricket",
+      "name": "Cricket",
+      "icon": "🏏",
+      "description": "Cricket"
+    },
+    {
+      "id": "badminton",
+      "name": "Badminton",
+      "icon": "🏸",
+      "description": "Singles and doubles"
+    },
+    {
+      "id": "race",
+      "name": "Race",
+      "icon": "↗",
+      "description": "Track and racing"
+    },
+    {
+      "id": "kipsket",
+      "name": "Kipsket",
+      "icon": "◇",
+      "description": "Kipsket competitions"
+    },
+    {
+      "id": "disc-throw",
+      "name": "Disc Throw",
+      "icon": "◉",
+      "description": "Disc throwing events"
+    }
+  ],
+  "seasons": [
+    "2026A",
+    "2026B"
+  ],
+  "archiveFile": "season-2026A.csn"
+}

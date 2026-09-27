@@ -1,47 +1,41 @@
-# CASPER Archive
+# CASPER Gazette — Multi-sport SPA
 
-Futsal competition archive for CSN 2.1.
+Old-school federation/newspaper-style CASPER portal built with vanilla HTML, CSS, and JavaScript.
 
-## CSN 2.1
+## Project structure
 
-- `sec=` sector number (`1` Cups & Leagues, `2` SuperLeague)
-- `tel=0/1` telemetry flag (shots, shots on target, throws)
-- Matches are CSV inside `m(` `)`
-- One club per owner. Dual shirts are not supported.
+- `index.html` — SPA shell
+- `styles.css` — vintage newspaper/federation design
+- `app.js` — hash router, CSN parser, archive-driven rendering and derived statistics
+- `data/config.json` — organization, sports catalog, seasons, archive manifest
+- `data/season-2026A.csn` — source archive supplied for this build
 
-```
-m(
-  home,away,hg,ag,stage,pens,yc,rc
-  Anish,Bhavesh,3,3,F,2-0,,
-)
-```
+## Run locally
 
-With telemetry (`tel=1`):
+Browser `fetch()` cannot reliably load local files via `file://`. From this directory run:
 
-```
-m(
-  home,away,hg,ag,stage,pens,yc,rc,shH,sotH,thH,shA,sotA,thA
-  Anish,Vyom,5,3,GS,,,,16,9,8,12,6,7
-)
+```bash
+python -m http.server 8000
 ```
 
-Only **2026B Pioneer Cup** currently has telemetry.
+Then visit http://localhost:8000.
 
-## Desk model
+## Data-driven model
 
-- xG = `0.055 × (shots − SoT) + 0.34 × SoT + 0.008 × throws`
-- xGoT = `0.41 × SoT + 0.05 × max(SoT − 1, 0)`
+- Competition pages are generated from CSN records.
+- Sport tiles come from `data/config.json`; add a sport there without editing the page templates.
+- Teams, squad names, groups, matches, and award fields are parsed from the CSN archive.
+- Generic standings are computed from numeric scorelines (3 points for a win, 1 for a draw).
+- Penalty shootouts remain separate from regulation score.
+- Unavailable stats are not invented. Sport-specific scoring rules should be added through a future `data/rules.json` if needed.
 
-## Pages
+## Add more data
 
-- Season dropdown includes **GLOBAL** (every season on one tape)
-- Sector dropdown filters Cups & Leagues vs SuperLeague
-- Season × sector pages live at `#/season/2026A/sector/2` and `#/global/sector/1`
+Place another season `.csn` file under `data/`, then add it to the archive manifest in `data/config.json` and extend `init()` to load each manifest entry. This starter includes the provided 2026A archive.
 
-## Serve
+## Notes / current limits
 
-Open `index.html` through any static server so `data/manifest.json` can load.
-
-```
-python3 -m http.server 8080
-```
+- This is a frontend-only SPA. Data is read-only and loaded via static files; editing or syncing requires a backend or generated JSON.
+- The CSN parser covers the fields and common blocks in the provided CSN 2.2 archive. Different future CSN syntaxes may need parser updates.
+- Score parsing preserves source strings and currently recognizes numeric `x-y` and `x/y` scores. Sport-specific scorecards (e.g. wickets/overs) need dedicated display/stat rules.
+- Career appearances, assists, saves, and other event stats are only available when source records contain sufficient event-level data.
