@@ -1,0 +1,618 @@
+CSN(ver=2.2; org=CASPER; mode=universal;)
+
+/* CASPER Season 2026A — universal multi-sport archive
+   sport=futsal: standard cup/league blocks
+   sport=football: SuperCup 8-match series (Football Crown)
+   sport=cricsal: Titan Cup
+   Duplicate source ID sc26a disambiguated as sc26a_fb and sc26a_fs.
+*/
+
+[
+id=tc26a;
+e=Titan Cup;
+s=2026A;
+ed=1;
+org=CASPER;
+sport=cricsal;
+fmt=6-ball innings;
+t=4;
+ov=1;
+wk=1;
+lvl=Cricket Crown;
+sts=Completed;
+
+n(
+  bbu=Black Bird United[Anish];
+  mar=Martians[Anirban];
+  ssc=Super Strikers CF[Srinjoy];
+  nas=New Athletico Saltlake[Vyom];
+);
+
+m(
+  bbu-mar:26/0(1.0)-0/1(0.1)#SF;
+  nas-ssc:12/1(1.0)-10/1(0.3)#SF;
+  bbu-nas:18/0(1.0)-16/0(1.0)#F
+);
+
+aw(
+  ch=bbu;
+  ru=nas
+);
+]
+
+[
+id=sc26a_fb;
+e=SuperCup;
+s=2026A;
+ed=1;
+org=CASPER;
+sport=football;
+fmt=8-match series (standard 5);
+t=2;
+ven=25x15m 4v4+2;
+lvl=Football Crown;
+sts=Completed;
+prd=S1;
+
+n(
+  bbu=Black Bird United[Anish];
+  rsa=Real Saltlake[Arjun];
+);
+
+sq(
+  bbu=Anish(c),Srinjoy,Aditya(gk),Anirban(vc)|Gourav,Rounak;
+  rsa=Arjun(c),Aarav(vc),Pronob(gk),Rajdeep|Divyanshu(gk),Promit
+);
+
+m(
+  bbu-rsa:3-6(gh=Anish*3,ga=Arjun*2+Promit*2+Anshuman*2,ah=Anish*1+Srinjoy*1,aa=Arjun*3+Anshuman*1)#1;
+  bbu-rsa:4-2(gh=Anish*2+Srinjoy*2,ga=Arjun*2,ah=Anish*1+Srinjoy*1+Gourav*1,aa=Arjun*1+Anshuman*1)#2;
+  bbu-rsa:5-2(gh=Anish*3+Srinjoy*1+Gourav*1,ga=Arjun*2,ah=Anish*1+Srinjoy*1,aa=Arjun*1+Aarav*1)#3;
+  bbu-rsa:1-4(gh=Anish*1,ga=Arjun*2+Aarav*2,aa=Arjun*2+Aarav*1)#4;
+  bbu-rsa:6-1(gh=Anish*3+Anirban*3,ga=Aarav*1,ah=Anish*2+Srinjoy*1+Anirban*1,aa=Arjun*1)#5;
+  bbu-rsa:2-0(gh=Anish*1+Anirban*1,ah=Anish*1+Anirban*1)#6;
+  bbu-rsa:2-0(gh=Anish*2)#7
+);
+
+aw(
+  ch=bbu;
+  ru=rsa;
+  Playmaker Award=Arjun;
+  gb=Anish;
+  poty=Anish;
+  Golden Wall=Gourav;
+  gg=Pronob;
+);
+]
+
+[
+id=pc26a;
+e=Pioneer Cup;
+s=2026A;
+sport=futsal;
+fmt=rsk;
+t=8;
+dos=12092026;
+doc=30112026;
+sts=Completed;
+
+n(
+  bbu=Black Bird United[Anish];
+  kko=Kolkata Kous[Bhavesh];
+  nas=New Athletico Saltlake[Vyom];
+  rsa=Real Saltlake[Arjun];
+  mfc=Modo FC[Divyanshu];
+  ssc=Super Strikers CF[Srinjoy];
+  rut=Romano United[Anshuman];
+  igr=Inter Grande CF[Rounak];
+  mvl=Movile[Gourav];
+  vos=Vostok CF[Aryan];
+  hor=Horsemen United[Rajdeep];
+  mar=Martians[Anirban];
+)
+
+grp(
+  A>bbu, rsa, rut;
+  B>nas, ssc, vos;
+  C>kko, hor, mfc;
+  D>mar, igr, mvl;
+)
+
+m(
+  rsa-rut:2-1(y1-0)#GS;
+  bbu-rsa:7-4#GS;
+  rut-bbu:0-1#GS;
+  ssc-nas:2-2#GS;
+  vos-ssc:3-2#GS;
+  nas-vos:1-3#GS;
+  mfc-hor:2-3#GS;
+  kko-mfc:2-2#GS;
+  hor-kko:0-1#GS;
+  mar-igr:6-2#GS;
+  mvl-mar:0-0(y1-1)#GS;
+  igr-mvl:4-5#GS;
+  bbu-ssc:4-2#QF;
+  hor-mar:1-3(y0-1,r0-1)#QF;
+  kko-mvl:5-3#QF;
+  rsa-vos:2-2(p2-1)#QF;
+  bbu-mar:5-2#SF;
+  kko-rsa:1-1(p1-0)#SF;
+  mar-rsa:0-1#TP;
+  bbu-kko:3-3(p2-0)#F;
+)
+
+aw{
+  Champion=bbu;
+  Champion Club=Black Bird United;
+  Runner-up=kko;
+  Runner-up Club=Kolkata Kous;
+  Underdog=kko;
+  Golden Boot=bbu;
+  Iron Wall=kko;
+  Best Goal=bbu;
+  Giant Killer=vos;
+  Fair Play=vos;
+  Third Place=rsa;
+  Third Place Club=Real Saltlake;
+  Fourth Place=mar;
+  Fourth Place Club=Martians;
+  Comeback Specialist=bbu;
+  Penalty Specialist=bbu;
+  Clutch Player=kko;
+  Record Breaker=bbu;
+  Golden Match Ball=bbu;
+}
+
+nt(Inaugural Edition)
+]
+
+[
+id=rc26a;
+e=Relegator Cup;
+s=2026A;
+sport=futsal;
+fmt=ko;
+t=4;
+dos=05082026;
+doc=07082026;
+sts=Completed;
+
+n(
+  rut=Romano United[Anshuman];
+  igr=Inter Grande CF[Rounak];
+  nas=New Athletico Saltlake[Vyom];
+  mfc=Modo FC[Divyanshu];
+)
+
+m(
+  rut-nas:0-0(p1-2)#SF;
+  mfc-igr:0-0(p2-1)#SF;
+  nas-mfc:3-2#F;
+)
+
+aw{
+  Champion=nas;
+  Champion Club=New Athletico Saltlake;
+  Runner-up=mfc;
+  Runner-up Club=Modo FC;
+  Golden Boot=nas;
+  Golden Match Ball=nas;
+}
+
+nt(First ever Relegator Cup)
+]
+
+[
+id=csc26a;
+e=Chroma Super Cup;
+s=2026A;
+sport=futsal;
+fmt=ko;
+t=2;
+dos=07082026;
+doc=07082026;
+sts=Completed;
+
+n(
+  bbu=Black Bird United[Anish];
+  nas=New Athletico Saltlake[Vyom];
+)
+
+m(
+  bbu-nas:7-3(y1-0,r0-1)#F;
+)
+
+aw{
+  Champion=bbu;
+  Champion Club=Black Bird United;
+  Runner-up=nas;
+  Runner-up Club=New Athletico Saltlake;
+  Record Breaker=bbu;
+  Golden Match Ball=bbu;
+}
+
+nt(A Super Cup between the champions of the Relegator Cup and Pioneer Cup)
+]
+
+[
+id=gr26a;
+e=Grande;
+s=2026A;
+sport=futsal;
+fmt=ko;
+t=8;
+dos=07082026;
+doc=13082026;
+sts=Completed;
+
+n(
+  bbu=Black Bird United[Anish];
+  kko=Kolkata Kous[Bhavesh];
+  rsa=Real Saltlake[Arjun];
+  ssc=Super Strikers CF[Srinjoy];
+  mvl=Movile[Gourav];
+  vos=Vostok CF[Aryan];
+  hor=Horsemen United[Rajdeep];
+  mar=Martians[Anirban];
+)
+
+m(
+  kko-hor:3-3(p1-0)#QF;
+  rsa-mar:3-3(p2-3)#QF;
+  bbu-mvl:7-1#QF;
+  ssc-vos:4-1#QF;
+  bbu-ssc:8-0#SF;
+  kko-mar:3-1#SF;
+  ssc-mar:2-2(p3-1)#TP;
+  kko-bbu:4-4(p2-1)#F;
+)
+
+aw{
+  Champion=kko;
+  Champion Club=Kolkata Kous;
+  Runner-up=bbu;
+  Runner-up Club=Black Bird United;
+  Golden Boot=bbu;
+  Best Goal=bbu;
+  Player of the Tournament=bbu;
+  Iron Wall=bbu;
+  Underdog=ssc;
+  Third Place=ssc;
+  Third Place Club=Super Strikers CF;
+  Fourth Place=mar;
+  Fourth Place Club=Martians;
+  Giant Killer=ssc;
+  Comeback Specialist=kko;
+  Record Breaker=bbu;
+  Clutch Player=ssc;
+  Penalty Specialist=kko;
+  Golden Match Ball=bbu;
+}
+
+nt(Direct knockout cup)
+]
+
+[
+id=cl26a;
+e=Conference League;
+s=2026A;
+sport=futsal;
+fmt=rr;
+t=4;
+dos=12082026;
+doc=14082026;
+sts=Completed;
+
+n(
+  rsa=Real Saltlake[Arjun];
+  mvl=Movile[Gourav];
+  vos=Vostok CF[Aryan];
+  hor=Horsemen United[Rajdeep];
+)
+
+m(
+  rsa-hor:0-0#GS;
+  mvl-vos:0-1#GS;
+  mvl-hor:0-1#GS;
+  rsa-mvl:1-0#GS;
+  rsa-vos:1-0#GS;
+  vos-hor:1-0#GS;
+)
+
+aw{
+  Champion=rsa;
+  Champion Club=Real Saltlake;
+  Runner-up=vos;
+  Runner-up Club=Vostok CF;
+  Third Place=hor;
+  Third Place Club=Horsemen United;
+  Golden Boot=vos;
+  Iron Wall=rsa;
+  Fair Play=mvl;
+  Golden Match Ball=rsa;
+  Fourth Place=mvl;
+  Fourth Place Club=Movile;
+}
+]
+
+[
+id=prc26a;
+e=Peripheral Cup;
+s=2026A;
+sport=futsal;
+fmt=rr;
+t=4;
+dos=12082026;
+doc=14082026;
+sts=Completed;
+
+n(
+  rut=Romano United[Anshuman];
+  igr=Inter Grande CF[Rounak];
+  nas=New Athletico Saltlake[Vyom];
+  mfc=Modo FC[Divyanshu];
+)
+
+m(
+  rut-igr:1-1#GS;
+  rut-nas:1-3#GS;
+  rut-mfc:0-1#GS;
+  igr-nas:2-2#GS;
+  mfc-igr:1-3#GS;
+  nas-mfc:0-0#GS;
+)
+
+aw{
+  Champion=igr;
+  Champion Club=Inter Grande CF;
+  Runner-up=nas;
+  Runner-up Club=New Athletico Saltlake;
+  Third Place=mfc;
+  Third Place Club=Modo FC;
+  Golden Boot=igr;
+  Iron Wall=mfc;
+  Golden Match Ball=igr;
+  Fair Play=rut;
+}
+]
+
+[
+id=pl26a;
+e=Premier League;
+s=2026A;
+sport=futsal;
+fmt=rr;
+t=4;
+dos=13082026;
+doc=14082026;
+sts=Completed;
+
+n(
+  kko=Kolkata Kous[Bhavesh];
+  bbu=Black Bird United[Anish];
+  ssc=Super Strikers CF[Srinjoy];
+  mar=Martians[Anirban];
+)
+
+m(
+  bbu-ssc:5-2#GS;
+  bbu-mar:2-1#GS;
+  mar-ssc:2-2#GS;
+  kko-ssc:1-0#GS;
+  mar-kko:0-1#GS;
+  kko-bbu:2-5#GS;
+)
+
+aw{
+  Champion=bbu;
+  Champion Club=Black Bird United;
+  Runner-up=kko;
+  Runner-up Club=Kolkata Kous;
+  Third Place=mar;
+  Third Place Club=Martians;
+  Golden Boot=bbu;
+  Iron Wall=mar;
+  Best Goal=bbu;
+  Record Breaker=bbu;
+  Golden Match Ball=bbu;
+}
+]
+
+[
+id=sc26a_fs;
+e=SuperCup;
+s=2026A;
+sport=futsal;
+fmt=ko;
+t=2;
+dos=18082026;
+doc=18082026;
+sts=Completed;
+
+n(
+  bbu=Black Bird United[Anish];
+  kko=Kolkata Kous[Bhavesh];
+)
+
+m(
+  bbu-kko:1-3#F;
+)
+
+aw{
+  Champion=kko;
+  Champion Club=Kolkata Kous;
+  Runner-up=bbu;
+  Runner-up Club=Black Bird United;
+  Golden Match Ball=kko;
+}
+]
+
+[
+id=msc26a;
+e=Minor Supercup;
+s=2026A;
+sport=futsal;
+fmt=ko;
+t=2;
+dos=18082026;
+doc=18082026;
+sts=Completed;
+
+n(
+  nas=New Athletico Saltlake[Vyom];
+  igr=Inter Grande CF[Rounak];
+)
+
+m(
+  nas-igr:1-2#F;
+)
+
+aw{
+  Champion=igr;
+  Champion Club=Inter Grande CF;
+  Runner-up=nas;
+  Runner-up Club=New Athletico Saltlake;
+  Golden Match Ball=igr;
+}
+
+nt(A Super Cup between the champions of the Relegator Cup and Peripheral Cup)
+]
+
+[
+id=ssc26a;
+e=Sub Supercup;
+s=2026A;
+sport=futsal;
+fmt=ko;
+t=2;
+dos=18082026;
+doc=18082026;
+sts=Completed;
+
+n(
+  rsa=Real Saltlake[Arjun];
+  igr=Inter Grande CF[Rounak];
+)
+
+m(
+  rsa-igr:1-0#F;
+)
+
+aw{
+  Champion=rsa;
+  Champion Club=Real Saltlake;
+  Runner-up=igr;
+  Runner-up Club=Inter Grande CF;
+  Golden Match Ball=rsa;
+}
+
+nt(A Super Cup between the champions of the Conference League and Minor Supercup)
+]
+
+[
+id=fn26a;
+e=Finale;
+s=2026A;
+sport=futsal;
+tag=golden;
+fmt=ko;
+t=4;
+dos=19082026;
+doc=21082026;
+sts=Completed;
+
+n(
+  bbu=Black Bird United[Anish];
+  ssc=Super Strikers CF[Srinjoy];
+  kko=Kolkata Kous[Bhavesh];
+  rsa=Real Saltlake[Arjun];
+)
+
+m(
+  bbu-ssc:3-3(p2-1)#SF;
+  kko-rsa:0-1#SF;
+  bbu-rsa:1-1(p2-0)#F;
+)
+
+aw{
+  Champion=bbu;
+  Champion Club=Black Bird United;
+  Runner-up=rsa;
+  Runner-up Club=Real Saltlake;
+  Golden Match Ball=bbu;
+  Third Place=ssc;
+  Third Place Club=Super Strikers CF;
+  Fourth Place=kko;
+  Fourth Place Club=Kolkata Kous;
+  Penalty Specialist=bbu;
+  Golden Boot=bbu;
+  Iron Wall=rsa;
+  Clutch Player=rsa;
+  Comeback Specialist=bbu;
+}
+
+nt(The concluding championship of the 2026A season.)
+]
+
+[
+id=sla26a;
+e=SuperLeague A;
+s=2026A;
+sport=futsal;
+fmt=rr;
+t=4;
+dos=03092026;
+sts=Ongoing;
+
+n(
+  bbu=Black Bird United[Anish];
+  pc=Park Circle[Rudra];
+  rtf=Red Tigers FC[Rio];
+  jfc=Jaguar FC[Pian];
+)
+
+m(
+  bbu-pc:4-4#GS;
+  rtf-jfc:5-5#GS;
+  bbu-pc:7-7#GS;
+  bbu-jfc:6-4#GS;
+  bbu-rtf:7-3#GS;
+  bbu-jfc:8-5#GS;
+  rtf-jfc:5-5#GS;
+  bbu-rtf:5-5#GS;
+  bbu-rtf:9-9#GS;
+)
+
+nt(SuperLeague A of the 2026A season.)
+]
+
+[
+id=slb26a;
+e=SuperLeague B;
+s=2026A;
+sport=futsal;
+fmt=rr;
+t=4;
+dos=03092026;
+sts=Ongoing;
+
+n(
+  scf=Seyfert CF[Anish];
+  sra=Southern Rangers[Rudra];
+  rrc=Red Rangers CF[Rio];
+  blc=Black Lions CF[Pian];
+)
+
+m(
+  scf-rrc:5-5#GS;
+  scf-sra:4-4#GS;
+  scf-sra:6-6#GS;
+  scf-blc:8-0#GS;
+  rrc-blc:6-4#GS;
+  scf-blc:30-4#GS;
+  rrc-blc:5-3#GS;
+  rrc-blc:15-16#GS;
+)
+
+nt(SuperLeague B of the 2026A season.)
+]
