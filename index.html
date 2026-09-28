@@ -1,47 +1,87 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#eee8d8">
-<meta name="description" content="CASPER Gazette — official multi-sport federation archive: club dossiers, player files, sport statistics, and multi-sport Elo rankings.">
-<title>CASPER Gazette — Official Sports Hub</title>
-<link rel="stylesheet" href="./styles.css?v=7">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CASPER Gazette</title>
+<style>
+  body { margin: 0; background: #f4ecd7; color: #111; font: 16px/1.45 "Times New Roman", Times, serif; }
+  a { color: #003399; }
+  a:visited { color: #551a8b; }
+  header, main, footer { max-width: 960px; margin: 0 auto; padding: 0 12px; }
+  header { border-bottom: 3px double #000; padding-top: 10px; padding-bottom: 8px; }
+  .date-line { font: 12px Arial, Helvetica, sans-serif; text-transform: uppercase; letter-spacing: 1px; display: flex; justify-content: space-between; gap: 8px; border-bottom: 1px solid #000; padding-bottom: 6px; }
+  h1 { margin: 8px 0 2px; text-align: center; font-size: 48px; letter-spacing: 2px; }
+  .tag { text-align: center; margin: 0 0 10px; font: 12px Arial, Helvetica, sans-serif; text-transform: uppercase; letter-spacing: 2px; }
+  nav { text-align: center; font: 13px Arial, Helvetica, sans-serif; }
+  nav a { margin: 0 6px; text-transform: uppercase; text-decoration: none; color: #000; }
+  nav a:hover, nav a.active { text-decoration: underline; }
+  main { min-height: 70vh; padding: 18px 12px 40px; }
+  footer { border-top: 3px double #000; text-align: center; font: 12px Arial, Helvetica, sans-serif; padding: 14px 12px 24px; }
+  .pagetitle { border-bottom: 2px solid #000; margin-bottom: 16px; padding-bottom: 8px; }
+  .pagetitle h2 { margin: 0 0 6px; font-size: 32px; }
+  .pagetitle p, .muted, .empty, .note { color: #444; }
+  .editionline, .sectionhead, .kicker, .match-meta, .compcard .meta, .badge, .toolbar input, .toolbar select, .tab {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  .editionline, .sectionhead { display: flex; justify-content: space-between; border-bottom: 1px solid #000; padding-bottom: 6px; margin: 18px 0 12px; font-size: 13px; font-weight: bold; text-transform: uppercase; }
+  .kicker { color: #7a1d16; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; font-weight: bold; }
+  .leadstory, .homegrid { display: block; }
+  .leadcopy h2 { font-size: 36px; margin: 8px 0 12px; line-height: 1.05; }
+  .leadfacts, .statgrid, .detailfacts, .sportgrid, .clubgrid, .awardgrid, .compgrid { display: block; }
+  .fact, .statbox, .detailfacts > div, .sporttile, .clubcard, .clubchip, .award, .compcard, .rankcard, .directory-card {
+    border: 1px solid #999; padding: 10px; margin: 8px 0; background: #faf6ea;
+  }
+  .inkbutton { display: inline-block; background: #111; color: #f4ecd7; padding: 8px 12px; text-decoration: none; font: bold 12px Arial, Helvetica, sans-serif; text-transform: uppercase; }
+  .matchline { border-bottom: 1px solid #ccc; padding: 8px 0; }
+  .match-teams { display: block; }
+  .match-teams strong { margin: 0 8px; }
+  .toolbar { margin: 10px 0 16px; }
+  .toolbar input, .toolbar select { border: 1px solid #666; background: #fff; padding: 6px; margin: 0 6px 6px 0; }
+  .tabs { margin: 12px 0; }
+  .tab { border: 1px solid #666; background: #eee; padding: 6px 8px; margin: 0 4px 4px 0; }
+  .tab.active { background: #111; color: #fff; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th { text-align: left; background: #111; color: #f4ecd7; padding: 6px; font: bold 11px Arial, Helvetica, sans-serif; text-transform: uppercase; }
+  td { padding: 6px; border-bottom: 1px solid #ccc; }
+  .tablewrap { overflow-x: auto; }
+  .error { border: 2px solid #7a1d16; padding: 12px; }
+  .formchip { display: inline-block; width: 16px; text-align: center; border: 1px solid #666; font: bold 10px Arial, Helvetica, sans-serif; margin-right: 2px; }
+  .formchip.W { background: #2f5d32; color: #fff; }
+  .formchip.L { background: #7a1d16; color: #fff; }
+  .elo-up { color: #2f5d32; } .elo-down { color: #7a1d16; }
+  .method { border: 1px dashed #666; padding: 10px; margin: 12px 0; }
+  .awardrow { border-bottom: 1px solid #ccc; padding: 8px 0; }
+  .textlink { color: #003399; }
+</style>
 </head>
 <body>
-<header class="sitehead">
-  <div class="utility">
-    <span>Vol. I · Official Federation Bulletin</span>
+<header>
+  <div class="date-line">
+    <span>Official Federation Bulletin</span>
     <span id="edition-date"></span>
-    <span>Records · Results · Rankings · Honors</span>
+    <span>Season 2026A</span>
   </div>
-  <div class="masthead">
-    <div class="overline">Competition · Athletics · Sports · Performance · Excellence · Records</div>
-    <h1 id="masthead-title">CASPER</h1>
-    <p>The Official Multi-Sport Federation Archive</p>
-  </div>
-  <nav class="nav" id="nav">
-    <a data-route="home" href="#/">Front Page</a>
+  <h1 id="masthead-title">CASPER</h1>
+  <p class="tag">Gazette — results, tables, clubs, players</p>
+  <nav id="nav">
+    <a data-route="home" href="#/">Home</a>
     <a data-route="sports" href="#/sports">Sports</a>
     <a data-route="competitions" href="#/competitions">Competitions</a>
-    <a data-route="matches" href="#/matches">Match Desk</a>
-    <a data-route="rankings" href="#/rankings">Elo Rankings</a>
+    <a data-route="matches" href="#/matches">Matches</a>
+    <a data-route="rankings" href="#/rankings">Rankings</a>
     <a data-route="statistics" href="#/statistics">Statistics</a>
     <a data-route="records" href="#/records">Records</a>
     <a data-route="honors" href="#/honors">Honors</a>
-    <a data-route="clubs" href="#/clubs">Club Dossiers</a>
+    <a data-route="clubs" href="#/clubs">Clubs</a>
     <a data-route="players" href="#/players">Players</a>
     <a data-route="archives" href="#/archives">Archives</a>
     <a data-route="search" href="#/search">Search</a>
   </nav>
 </header>
-<main id="app"><p class="muted">Opening the federation archive…</p></main>
-<footer class="sitefoot">
-  <strong>CASPER</strong>
-  OFFICIAL FEDERATION ARCHIVE · ALL SEASONS · ALL SPORTS · CLUB DOSSIERS · PLAYER FILES · MULTI-SPORT ELO
-</footer>
-<script src="./app.js?v=7"></script>
-<script src="./hub-layer.js?v=7"></script>
+<main id="app"><p>Loading archive...</p></main>
+<footer>CASPER Gazette · official multi-sport archive</footer>
+<script src="./app.js?v=8"></script>
+<script src="./hub-layer.js?v=8"></script>
 </body>
 </html>
