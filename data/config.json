@@ -53,6 +53,12 @@
       "name": "Disc Throw",
       "icon": "◉",
       "description": "Disc throwing events"
+    },
+    {
+      "id": "handcricket",
+      "name": "Handcricket",
+      "icon": "🏏",
+      "description": "Handcricket competitions"
     }
   ],
   "seasons": [
