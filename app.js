@@ -994,7 +994,7 @@ function playerRecordStats(name) {
       for (const key of ["gh","ga","ah","aa"]) {
         const list = m.events?.[key]; if (!list) continue;
         list.split("+").forEach(token => {
-          const hit = token.trim().match(/^(.+?)\s*\\*\s*(\\d+)$/);
+          const hit = token.trim().match(/^(.+?)\s*\*\s*(\d+)$/);
           if (!hit || hit[1].trim().toLowerCase() !== name.toLowerCase()) return;
           const amount=Number(hit[2]); if (key==="gh" || key==="ga") out.goals+=amount; else out.assists+=amount;
           out.competitions.add(c.id);
