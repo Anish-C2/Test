@@ -40,3 +40,6 @@ Place another season `.csn` file under `data/`, then add it to the archive manif
 - The CSN parser covers the fields and common blocks in the provided CSN 2.2 archive. Ball-by-ball data currently expects one comma-separated array per side in a match score.
 - Score parsing preserves source strings and recognizes numeric scorelines plus ball-by-ball innings. Use `home-away:[2,3,5,6,Wd,3,W]/[1,0,4,W,2,6]#F` for two innings sequences. Tokens: `0`–`6` = runs, `W` = wicket, `Wd` = wide (+1 extra, no legal ball), `Nb` = no-ball (+1 extra, no legal ball), and `B2`/`Lb1` = byes/leg-byes. Each match displays derived innings totals and ball statistics.
 - Career appearances, assists, saves, and other event stats are only available when source records contain sufficient event-level data.
+
+- Walkovers are recorded as `home-away:WO#stage` (the home club is awarded the win), or `home-away:WO(clubcode)#stage` to explicitly name the winning club. A walkover counts as a played win/loss in standings without inventing a scoreline; the winner is shown in the match report.
+- Club dossiers include cross-competition match summaries, competition ledgers, personnel links, and recorded honors. Player dossiers collect known club affiliations, available event-based goals/assists, awards, and linked competitions; appearances are not fabricated when lineups are unavailable.
