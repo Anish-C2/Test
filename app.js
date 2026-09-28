@@ -491,6 +491,24 @@ function aggregateStats(record) {
     .sort((a, b) => b.pts - a.pts || b.gd - a.gd || b.for - a.for);
 }
 
+function handcricketStandings(record) {
+  const quota = Math.max(1, Number(record.rawFields?.ov || 2)) * 6;
+  const stats = Object.fromEntries(Object.entries(record.teams || {}).map(([code, team]) => [code, { code, name: team.name, player: team.manager || '', played: 0, w: 0, d: 0, l: 0, runsFor: 0, runsAgainst: 0, wickets: 0, ballsFor: 0, ballsAgainst: 0, pts: 0 }]));
+  for (const m of record.matches) {
+    if (!m.ballData || !stats[m.home] || !stats[m.away]) continue;
+    const h = stats[m.home], a = stats[m.away], hi = m.ballData.home, ai = m.ballData.away;
+    const hb = hi.wickets ? quota : hi.legalBalls, ab = ai.wickets ? quota : ai.legalBalls;
+    h.played++; a.played++; h.runsFor += hi.runs; h.runsAgainst += ai.runs; a.runsFor += ai.runs; a.runsAgainst += hi.runs;
+    h.wickets += hi.wickets; a.wickets += ai.wickets; h.ballsFor += hb; h.ballsAgainst += ab; a.ballsFor += ab; a.ballsAgainst += hb;
+    if (hi.runs > ai.runs) { h.w++; a.l++; h.pts += 2; } else if (hi.runs < ai.runs) { a.w++; h.l++; a.pts += 2; } else { h.d++; a.d++; h.pts++; a.pts++; }
+  }
+  return Object.values(stats).map(t => ({ ...t, nrr: (t.ballsFor ? t.runsFor * 6 / t.ballsFor : 0) - (t.ballsAgainst ? t.runsAgainst * 6 / t.ballsAgainst : 0) })).sort((a,b) => b.pts-a.pts || b.nrr-a.nrr || b.runsFor-a.runsFor);
+}
+
+function handcricketTable(rows) {
+  if (!rows.length) return '<p class="muted">No handcricket standings available.</p>';
+  return '<div class="tablewrap"><table><thead><tr><th>#</th><th>Club / Player</th><th>P</th><th>W</th><th>L</th><th>Runs</th><th>Conceded</th><th>Wkts</th><th>NRR</th><th>Pts</th></tr></thead><tbody>' + rows.map((t,i) => '<tr><td>'+(i+1)+'</td><td><b>'+esc(t.name)+'</b><small class="muted"> '+esc(t.player)+'</small></td><td>'+t.played+'</td><td>'+t.w+'</td><td>'+t.l+'</td><td>'+t.runsFor+'</td><td>'+t.runsAgainst+'</td><td>'+t.wickets+'</td><td>'+(t.nrr >= 0 ? '+' : '')+t.nrr.toFixed(3)+'</td><td><b>'+t.pts+'</b></td></tr>').join('') + '</tbody></table></div><p class="muted">HCL points: 2 for a win, 1 for a tie. NRR = runs per over scored minus runs per over conceded; all-out innings count as the full 2-over quota.</p>';
+}
 function statsForSport(sport = "all") {
   const comps = state.archive.filter(
     c => sport === "all" || c.sport === sport
@@ -742,8 +760,8 @@ function competitionPanel(c, tab) {
 
   if (tab === "table") {
     return section("Derived Standings") +
-      standingsTable(aggregateStats(c)) +
-      `<p class="muted">Calculated from numeric scores using 3 points for a win and 1 for a draw. Shoot-out results are not used to break draws.</p>`;
+      (c.sport === "handcricket" ? handcricketTable(handcricketStandings(c)) : standingsTable(aggregateStats(c))) +
+      `<p class="muted">${c.sport === "handcricket" ? "Standings and NRR are calculated from ball-by-ball innings." : "Calculated from numeric scores using 3 points for a win and 1 for a draw. Shoot-out results are not used to break draws."}</p>`;
   }
 
   if (tab === "teams") {
