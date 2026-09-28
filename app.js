@@ -179,6 +179,11 @@ function extractRecords(text) {
   return records;
 }
 
+function sportIcon(id) {
+  const icons = { football:"sports_soccer", futsal:"sports_soccer", cricket:"sports_cricket", cricsal:"sports_cricket", handcricket:"sports_cricket", badminton:"sports_tennis", race:"directions_run", kipsket:"sports_handball", "disc-throw":"sports_baseball" };
+  return icons[id] || "emoji_events";
+}
+
 function parseBallSequence(raw) {
   const tokens = raw.replace(/^\[|\]$/g, "").split(",").map(x => x.trim()).filter(Boolean);
   const stats = { tokens, runs: 0, wickets: 0, legalBalls: 0, extras: 0, fours: 0, sixes: 0, dots: 0, wides: 0, noBalls: 0 };
@@ -267,6 +272,9 @@ function parseCSN(text) {
         /^\s*(\d+)\s*-\s*(\d+)(?=\s*(?:\(|$))/
       );
 
+      const woMatch = score.match(/^\s*WO(?:\s*\(\s*([\w-]+)\s*\))?\s*$/i);
+      const walkoverWinner = woMatch ? (woMatch[1] || home) : null;
+
       // Ball-by-ball cricket/handcricket: [home sequence]/[away sequence]
       const ballMatch = score.match(/^\s*(\[[^\]]*\])\s*\/\s*(\[[^\]]*\])\s*$/);
       const homeBalls = ballMatch ? parseBallSequence(ballMatch[1]) : null;
@@ -297,9 +305,10 @@ function parseCSN(text) {
         away,
         homeName: teams[home]?.name || home,
         awayName: teams[away]?.name || away,
-        score: ballData ? `${homeBalls.runs}/${homeBalls.wickets} (${homeBalls.overs}) - ${awayBalls.runs}/${awayBalls.wickets} (${awayBalls.overs})` : score.trim(),
+        score: walkoverWinner ? "WALKOVER" : ballData ? `${homeBalls.runs}/${homeBalls.wickets} (${homeBalls.overs}) - ${awayBalls.runs}/${awayBalls.wickets} (${awayBalls.overs})` : score.trim(),
         homeScore: ballData ? homeBalls.runs : numeric ? Number(numeric[1]) : null,
         awayScore: ballData ? awayBalls.runs : numeric ? Number(numeric[2]) : null,
+        walkoverWinner,
         ballData,
         penalties: pen ? [Number(pen[1]), Number(pen[2])] : null,
         events,
@@ -453,18 +462,17 @@ function aggregateStats(record) {
   });
 
   record.matches.forEach(m => {
-    if (
-      m.homeScore == null ||
-      m.awayScore == null ||
-      !stats[m.home] ||
-      !stats[m.away]
-    ) return;
-
+    if (!stats[m.home] || !stats[m.away]) return;
     const h = stats[m.home], a = stats[m.away];
-
+    if (m.walkoverWinner) {
+      h.played++; a.played++;
+      const winner = stats[m.walkoverWinner], loser = m.walkoverWinner === m.home ? a : h;
+      if (winner) { winner.w++; winner.pts += 3; loser.l++; }
+      return;
+    }
+    if (m.homeScore == null || m.awayScore == null) return;
     h.played++;
     a.played++;
-
     h.for += m.homeScore;
     h.against += m.awayScore;
     a.for += m.awayScore;
@@ -495,7 +503,13 @@ function handcricketStandings(record) {
   const quota = Math.max(1, Number(record.rawFields?.ov || 2)) * 6;
   const stats = Object.fromEntries(Object.entries(record.teams || {}).map(([code, team]) => [code, { code, name: team.name, player: team.manager || '', played: 0, w: 0, d: 0, l: 0, runsFor: 0, runsAgainst: 0, wickets: 0, ballsFor: 0, ballsAgainst: 0, pts: 0 }]));
   for (const m of record.matches) {
-    if (!m.ballData || !stats[m.home] || !stats[m.away]) continue;
+    if (!stats[m.home] || !stats[m.away]) continue;
+    if (m.walkoverWinner) {
+      const winner = stats[m.walkoverWinner], loser = stats[m.walkoverWinner === m.home ? m.away : m.home];
+      winner.played++; loser.played++; winner.w++; loser.l++; winner.pts += 2;
+      continue;
+    }
+    if (!m.ballData) continue;
     const h = stats[m.home], a = stats[m.away], hi = m.ballData.home, ai = m.ballData.away;
     const hb = hi.wickets ? quota : hi.legalBalls, ab = ai.wickets ? quota : ai.legalBalls;
     h.played++; a.played++; h.runsFor += hi.runs; h.runsAgainst += ai.runs; a.runsFor += ai.runs; a.runsAgainst += hi.runs;
@@ -517,8 +531,16 @@ function statsForSport(sport = "all") {
   const map = new Map();
 
   comps.forEach(c => c.matches.forEach(m => {
+    if (m.walkoverWinner) {
+      [[m.home, m.home === m.walkoverWinner], [m.away, m.away === m.walkoverWinner]].forEach(([code, won]) => {
+        const name = getTeamName(c, code);
+        if (!map.has(name)) map.set(name, { name, played:0, w:0, d:0, l:0, for:0, against:0, pts:0 });
+        const t = map.get(name); t.played++;
+        if (won) { t.w++; t.pts += 3; } else t.l++;
+      });
+      return;
+    }
     if (m.homeScore == null || m.awayScore == null) return;
-
     [
       [m.home, m.homeScore, m.awayScore],
       [m.away, m.awayScore, m.homeScore]
@@ -594,15 +616,15 @@ function matchLine(c, m) {
     : "";
   return `<article class="matchline">
     <div class="match-meta">
-      ${esc(c.name)} · ${esc(m.stage || "Match " + m.index)}
-      <span>${esc(c.season)}</span>
+      <span class="material-symbols-outlined tiny-icon">sports</span> ${esc(c.name)} · ${esc(m.stage || "Match " + m.index)}
+      <span>${m.walkoverWinner ? 'WALKOVER · ' : ''}${esc(c.season)}</span>
     </div>
     <div class="match-teams">
       <b>${esc(m.homeName)}</b>
-      <strong>${esc(m.score)}</strong>
+      <strong>${m.walkoverWinner ? '<span class="wo-mark">WO</span>' : esc(m.score)}</strong>
       <b>${esc(m.awayName)}</b>
     </div>
-    ${ballDetails}
+    ${m.walkoverWinner ? `<p class="walkover-note"><span class="material-symbols-outlined">flag</span> Walkover awarded to <b>${esc(getTeamName(c, m.walkoverWinner))}</b> by resignation.</p>` : ballDetails}
   </article>`;
 }
 
@@ -687,7 +709,7 @@ function home() {
   ${section("Browse by Sport")}
   <div class="sportgrid">${state.config.sports.map(s => `
     <a class="sporttile" href="#/sport/${encodeURIComponent(s.id)}">
-      <span>${esc(s.icon || "*")}</span>
+      <span class="material-symbols-outlined">${sportIcon(s.id)}</span>
       <b>${esc(s.name)}</b>
       <small>${state.archive.filter(c => c.sport === s.id).length} competitions</small>
     </a>`).join("")}
@@ -723,7 +745,7 @@ function sportsPage(id) {
   return pageTitle("THE SPORTING DIRECTORY", "All Sports", "The federation sports catalog is configuration-driven.") +
     `<div class="sportgrid">${state.config.sports.map(s => `
       <a class="sporttile" href="#/sport/${encodeURIComponent(s.id)}">
-        <span>${esc(s.icon || "*")}</span>
+        <span class="material-symbols-outlined">${sportIcon(s.id)}</span>
         <b>${esc(s.name)}</b>
         <small>${state.archive.filter(c => c.sport === s.id).length} competitions</small>
       </a>`).join("")}</div>`;
@@ -918,93 +940,93 @@ function statisticsPage() {
     </div>`;
 }
 
+function clubRecordStats(name) {
+  const rows = [];
+  state.archive.forEach(c => {
+    const entry = Object.entries(c.teams || {}).find(([, t]) => t.name === name);
+    if (!entry) return;
+    const [code] = entry;
+    const stat = { competition:c, code, played:0, wins:0, draws:0, losses:0, scored:0, conceded:0 };
+    c.matches.forEach(m => {
+      if (m.home !== code && m.away !== code) return;
+      stat.played++;
+      if (m.walkoverWinner) { if (m.walkoverWinner === code) stat.wins++; else stat.losses++; return; }
+      if (m.homeScore == null || m.awayScore == null) return;
+      const own = m.home === code ? m.homeScore : m.awayScore, opp = m.home === code ? m.awayScore : m.homeScore;
+      stat.scored += own; stat.conceded += opp;
+      if (own > opp) stat.wins++; else if (own < opp) stat.losses++; else stat.draws++;
+    });
+    rows.push(stat);
+  });
+  return rows;
+}
+
 function clubsPage(id) {
   const clubs = allTeams();
-
   if (id) {
     const c = clubs.find(x => slug(x.name) === id);
     if (!c) return notFound();
-
-    const comps = state.archive.filter(x =>
-      Object.values(x.teams || {}).some(t => t.name === c.name)
-    );
-
-    return pageTitle("CLUB REGISTER", c.name, `${sportName(c.sport)} · ${c.code}`) +
-      `<div class="detailfacts">
-        <div><small>SPORT</small><b>${esc(sportName(c.sport))}</b></div>
-        <div><small>COMPETITIONS</small><b>${c.competitions.length}</b></div>
-      </div>
-      ${section("Competition History")}
-      <div class="compgrid">${comps.map(compCard).join("")}</div>`;
+    const history = clubRecordStats(c.name);
+    const totals = history.reduce((a,r) => { for (const k of ["played","wins","draws","losses","scored","conceded"]) a[k]+=r[k]; return a; }, {played:0,wins:0,draws:0,losses:0,scored:0,conceded:0});
+    const titles = state.archive.filter(x => Object.entries(x.awards || {}).some(([k,v]) => /champion|winner|title/i.test(k) && (v === c.code || v === c.name)));
+    const players = allPlayers().filter(p => p.teams.includes(c.name));
+    return pageTitle("CLUB DOSSIER · OFFICIAL REGISTER", c.name, `${sportName(c.sport)} · Club code: ${c.code}`) +
+      `<div class="club-profile-head"><div class="club-monogram"><span class="material-symbols-outlined">shield</span><b>${esc(c.name.split(/\\s+/).map(x=>x[0]).slice(0,3).join("").toUpperCase())}</b></div><div><div class="kicker">CLUB FILE / ${esc(c.code.toUpperCase())}</div><h3>${esc(c.name)}</h3><p>Club contact: <b>${esc(c.manager || "Not recorded")}</b></p><p class="muted">Registered in ${c.competitions.length} competition record(s).</p></div></div>
+      <div class="detailfacts"><div><small>SPORT</small><b>${esc(sportName(c.sport))}</b></div><div><small>COMPETITIONS</small><b>${c.competitions.length}</b></div><div><small>MATCHES</small><b>${totals.played}</b></div><div><small>WON</small><b>${totals.wins}</b></div><div><small>DRAWN</small><b>${totals.draws}</b></div><div><small>LOST</small><b>${totals.losses}</b></div><div><small>FOR</small><b>${totals.scored}</b></div><div><small>AGAINST</small><b>${totals.conceded}</b></div><div><small>HONORS</small><b>${titles.length}</b></div></div>
+      ${section("Competition Ledger")}<div class="tablewrap"><table><thead><tr><th>Competition</th><th>Season</th><th>P</th><th>W</th><th>D</th><th>L</th><th>For</th><th>Against</th></tr></thead><tbody>${history.map(r=>`<tr><td><a href="#/competition/${encodeURIComponent(r.competition.id)}"><b>${esc(r.competition.name)}</b></a></td><td>${esc(r.competition.season)}</td><td>${r.played}</td><td>${r.wins}</td><td>${r.draws}</td><td>${r.losses}</td><td>${r.scored}</td><td>${r.conceded}</td></tr>`).join("")}</tbody></table></div>
+      ${section("Club Personnel")}<div class="clubgrid">${players.map(p=>`<a class="clubcard" href="#/player/${encodeURIComponent(p.id)}"><small>PLAYER DOSSIER</small><b><span class="material-symbols-outlined tiny-icon">person</span>${esc(p.name)}</b><span>${esc(p.role)}</span></a>`).join("") || '<p class="empty">No squad members recorded in the archive.</p>'}</div>
+      ${section("Honors & Distinctions")}<div class="awardgrid">${titles.map(t=>`<a class="award" href="#/competition/${encodeURIComponent(t.id)}"><small><span class="material-symbols-outlined tiny-icon">emoji_events</span>${esc(t.season)}</small><b>${esc(t.name)}</b></a>`).join("") || '<p class="muted">No championship award records found for this club.</p>'}</div>
+      ${section("Match Register")}${history.flatMap(r=>r.competition.matches.filter(m=>m.home===r.code||m.away===r.code).map(m=>matchLine(r.competition,m))).reverse().join("") || '<p class="empty">No match records.</p>'}`;
   }
-
   return pageTitle("CLUB DIRECTORY", "Registered Clubs", `${clubs.length} unique club names across the archive.`) +
-    `<div class="toolbar">
-      <input id="cq" placeholder="Search clubs...">
-      <select id="cs">
-        <option value="all">All sports</option>
-        ${state.config.sports.map(s => `<option value="${esc(s.id)}">${esc(s.name)}</option>`).join("")}
-      </select>
-    </div>
-    <div id="clubResults" class="clubgrid"></div>`;
+    `<div class="toolbar"><input id="cq" placeholder="Search clubs..."><select id="cs"><option value="all">All sports</option>${state.config.sports.map(s => `<option value="${esc(s.id)}">${esc(s.name)}</option>`).join("")}</select></div><div class="directory-tools"><span class="material-symbols-outlined">shield</span> CLUB REGISTER · SORTED ALPHABETICALLY</div><div id="clubResults" class="clubgrid"></div>`;
 }
-
 function renderClubs() {
-  const root = $("#clubResults");
-  if (!root) return;
-
-  const q = $("#cq").value.toLowerCase();
-  const sp = $("#cs").value;
-
-  const rows = allTeams().filter(c =>
-    (sp === "all" || c.sport === sp) && c.name.toLowerCase().includes(q)
-  );
-
-  root.innerHTML = rows.map(c => `
-    <a class="clubcard" href="#/club/${encodeURIComponent(slug(c.name))}">
-      <small>${esc(sportName(c.sport))} · ${esc(c.code)}</small>
-      <b>${esc(c.name)}</b>
-      <span>${c.competitions.length} competitions</span>
-    </a>`).join("") || "<p>No clubs found.</p>";
+  const root = $("#clubResults"); if (!root) return;
+  const q = $("#cq").value.toLowerCase(), sp = $("#cs").value;
+  const rows = allTeams().filter(c => (sp === "all" || c.sport === sp) && c.name.toLowerCase().includes(q)).sort((a,b)=>a.name.localeCompare(b.name));
+  root.innerHTML = rows.map(c => `<a class="clubcard directory-card" href="#/club/${encodeURIComponent(slug(c.name))}"><small><span class="material-symbols-outlined tiny-icon">shield</span>${esc(sportName(c.sport))} · ${esc(c.code)}</small><b>${esc(c.name)}</b><span>Contact: ${esc(c.manager || "Not recorded")}</span><span>${c.competitions.length} competition records →</span></a>`).join("") || '<p class="empty">No clubs found.</p>';
 }
-
+function playerRecordStats(name) {
+  const out = { competitions:new Set(), goals:0, assists:0, honors:[] };
+  state.archive.forEach(c => {
+    c.matches.forEach(m => {
+      for (const key of ["gh","ga","ah","aa"]) {
+        const list = m.events?.[key]; if (!list) continue;
+        list.split("+").forEach(token => {
+          const hit = token.trim().match(/^(.+?)\\s*\\*\\s*(\\d+)$/);
+          if (!hit || hit[1].trim().toLowerCase() !== name.toLowerCase()) return;
+          const amount=Number(hit[2]); if (key==="gh" || key==="ga") out.goals+=amount; else out.assists+=amount;
+          out.competitions.add(c.id);
+        });
+      }
+    });
+    Object.entries(c.awards || {}).forEach(([award,value]) => { if (value === name) out.honors.push({award,competition:c}); });
+  });
+  return out;
+}
 function playersPage(id) {
   const players = allPlayers();
-
   if (id) {
-    const p = players.find(x => x.id === id);
-    if (!p) return notFound();
-
-    return pageTitle("ATHLETE PROFILE", p.name, p.role) +
-      `<div class="detailfacts">
-        <div><small>KNOWN CLUBS</small><b>${esc(p.teams.join(", ") || "Not recorded")}</b></div>
-        <div><small>GOALS IN EVENT DATA</small><b>${p.goals || "Not calculated"}</b></div>
-        <div><small>ASSISTS IN EVENT DATA</small><b>${p.assists || "Not calculated"}</b></div>
-      </div>
-      <p class="muted">This profile is assembled from team contacts and roster entries in the archive. Career appearances and totals require match-level participation data.</p>`;
+    const p = players.find(x => x.id === id); if (!p) return notFound();
+    const record = playerRecordStats(p.name);
+    const comps = state.archive.filter(c => p.teams.some(name => Object.values(c.teams || {}).some(t=>t.name===name)));
+    return pageTitle("PERSONNEL FILE · PLAYER REGISTER", p.name, `${p.role} · Individual record`) +
+      `<div class="player-profile-head"><div class="player-seal"><span class="material-symbols-outlined">person</span></div><div><div class="kicker">ATHLETE DOSSIER</div><h3>${esc(p.name)}</h3><p>Associated clubs: ${p.teams.map(name=>`<a class="textlink" href="#/club/${encodeURIComponent(slug(name))}">${esc(name)}</a>`).join(" · ") || "Not recorded"}</p></div></div>
+      <div class="detailfacts"><div><small>CLUBS</small><b>${p.teams.length}</b></div><div><small>LINKED COMPETITIONS</small><b>${comps.length}</b></div><div><small>GOALS IN EVENT DATA</small><b>${record.goals || "—"}</b></div><div><small>ASSISTS IN EVENT DATA</small><b>${record.assists || "—"}</b></div><div><small>HONORS RECORDED</small><b>${record.honors.length}</b></div></div>
+      <p class="muted">Compiled from registered squad lists, club contacts, match events and awards. Appearance totals are not inferred where participation is not explicitly recorded.</p>
+      ${section("Club Affiliations")}<div class="clubgrid">${p.teams.map(name=>`<a class="clubcard" href="#/club/${encodeURIComponent(slug(name))}"><small>REGISTERED CLUB</small><b><span class="material-symbols-outlined tiny-icon">shield</span>${esc(name)}</b><span>Open club dossier →</span></a>`).join("") || '<p class="empty">No club affiliations recorded.</p>'}</div>
+      ${section("Honors & Awards")}<div class="awardgrid">${record.honors.map(h=>`<a class="award" href="#/competition/${encodeURIComponent(h.competition.id)}"><small>${esc(h.award)} · ${esc(h.competition.season)}</small><b>${esc(h.competition.name)}</b></a>`).join("") || '<p class="muted">No individual award records found.</p>'}</div>
+      ${section("Competition Index")}<div class="compgrid">${comps.map(compCard).join("") || '<p class="empty">No linked competitions.</p>'}</div>`;
   }
-
-  return pageTitle("ATHLETE DIRECTORY", "Players & Personnel", "Names discovered in team contact and squad records.") +
-    `<div class="toolbar"><input id="pq" placeholder="Search people..."></div>
-    <div id="playerResults" class="clubgrid"></div>`;
+  return pageTitle("PERSONNEL DIRECTORY", "Players & Personnel", "Search registered contacts and squad names across the archive.") +
+    `<div class="toolbar"><input id="pq" placeholder="Search people..."></div><div class="directory-tools"><span class="material-symbols-outlined">groups</span> PERSONNEL REGISTER · PLAYER AND CLUB CONTACT FILES</div><div id="playerResults" class="clubgrid"></div>`;
 }
-
 function renderPlayers() {
-  const root = $("#playerResults");
-  if (!root) return;
-
+  const root = $("#playerResults"); if (!root) return;
   const q = $("#pq").value.toLowerCase();
-
-  const rows = allPlayers().filter(p =>
-    (p.name + " " + p.teams.join(" ")).toLowerCase().includes(q)
-  );
-
-  root.innerHTML = rows.map(p => `
-    <a class="clubcard" href="#/player/${encodeURIComponent(p.id)}">
-      <small>${esc(p.role)}</small>
-      <b>${esc(p.name)}</b>
-      <span>${esc(p.teams.join(", ") || "No club listed")}</span>
-    </a>`).join("") || "<p>No players found.</p>";
+  const rows = allPlayers().filter(p => (p.name + " " + p.teams.join(" ")).toLowerCase().includes(q)).sort((a,b)=>a.name.localeCompare(b.name));
+  root.innerHTML = rows.map(p => `<a class="clubcard directory-card" href="#/player/${encodeURIComponent(p.id)}"><small><span class="material-symbols-outlined tiny-icon">person</span>${esc(p.role)}</small><b>${esc(p.name)}</b><span>${esc(p.teams.join(", ") || "No club listed")}</span><span>Open personnel file →</span></a>`).join("") || '<p class="empty">No players found.</p>';
 }
 
 function archivesPage() {
