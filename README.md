@@ -25,7 +25,7 @@ Then visit http://localhost:8000.
 - Competition pages are generated from CSN records.
 - Sport tiles come from `data/config.json`; add a sport there without editing the page templates.
 - Teams, squad names, groups, matches, and award fields are parsed from the CSN archive.
-- Generic standings are computed from numeric scorelines (3 points for a win, 1 for a draw).
+- Generic standings are computed from numeric scorelines (3 points for a win, 1 for a draw).\n- Cricket and Handcricket innings can store ball-by-ball arrays and derive runs, wickets, legal balls, overs, extras, fours, sixes, and dot balls.
 - Penalty shootouts remain separate from regulation score.
 - Unavailable stats are not invented. Sport-specific scoring rules should be added through a future `data/rules.json` if needed.
 
@@ -36,6 +36,6 @@ Place another season `.csn` file under `data/`, then add it to the archive manif
 ## Notes / current limits
 
 - This is a frontend-only SPA. Data is read-only and loaded via static files; editing or syncing requires a backend or generated JSON.
-- The CSN parser covers the fields and common blocks in the provided CSN 2.2 archive. Different future CSN syntaxes may need parser updates.
-- Score parsing preserves source strings and currently recognizes numeric `x-y` and `x/y` scores. Sport-specific scorecards (e.g. wickets/overs) need dedicated display/stat rules.
+- The CSN parser covers the fields and common blocks in the provided CSN 2.2 archive. Ball-by-ball data currently expects one comma-separated array per side in a match score.
+- Score parsing preserves source strings and recognizes numeric scorelines plus ball-by-ball innings. Use `home-away:[2,3,5,6,Wd,3,W]/[1,0,4,W,2,6]#F` for two innings sequences. Tokens: `0`–`6` = runs, `W` = wicket, `Wd` = wide (+1 extra, no legal ball), `Nb` = no-ball (+1 extra, no legal ball), and `B2`/`Lb1` = byes/leg-byes. Each match displays derived innings totals and ball statistics.
 - Career appearances, assists, saves, and other event stats are only available when source records contain sufficient event-level data.
