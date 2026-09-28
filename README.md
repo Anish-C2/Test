@@ -25,7 +25,8 @@ Then visit http://localhost:8000.
 - Competition pages are generated from CSN records.
 - Sport tiles come from `data/config.json`; add a sport there without editing the page templates.
 - Teams, squad names, groups, matches, and award fields are parsed from the CSN archive.
-- Generic standings are computed from numeric scorelines (3 points for a win, 1 for a draw).\n- Cricket and Handcricket innings can store ball-by-ball arrays and derive runs, wickets, legal balls, overs, extras, fours, sixes, and dot balls.
+- Generic standings are computed from numeric scorelines (3 points for a win, 1 for a draw).
+- Cricket and Handcricket innings can store ball-by-ball arrays and derive runs, wickets, legal balls, overs, extras, fours, sixes, and dot balls.
 - Penalty shootouts remain separate from regulation score.
 - Unavailable stats are not invented. Sport-specific scoring rules should be added through a future `data/rules.json` if needed.
 
