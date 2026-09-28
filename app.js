@@ -12,11 +12,11 @@ const state = {
 };
 
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({
-  "&": "\\u0026amp;",
-  "<": "\\u0026lt;",
-  ">": "\\u0026gt;",
-  '"': "\\u0026quot;",
-  "'": "\\u0026#39;"
+  "&": "&amp;",
+  "<": "&lt;",
+  ">": "&gt;",
+  '"': "&quot;",
+  "'": "&#39;"
 }[c]));
 
 const slug = s => String(s || "").toLowerCase()
