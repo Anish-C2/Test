@@ -121,7 +121,7 @@ function extractBalanced(src, start, open, close) {
 
 function block(src, name) {
   const re = new RegExp(
-    "(?:^|\\n)\\s*" + name + "\\s*([({])",
+    "(?:^|\\n)\s*" + name + "\s*([({])",
     "m"
   );
 
@@ -971,7 +971,7 @@ function clubsPage(id) {
     const titles = state.archive.filter(x => Object.entries(x.awards || {}).some(([k,v]) => /champion|winner|title/i.test(k) && (v === c.code || v === c.name)));
     const players = allPlayers().filter(p => p.teams.includes(c.name));
     return pageTitle("CLUB DOSSIER · OFFICIAL REGISTER", c.name, `${sportName(c.sport)} · Club code: ${c.code}`) +
-      `<div class="club-profile-head"><div class="club-monogram"><span class="material-symbols-outlined">shield</span><b>${esc(c.name.split(/\\s+/).map(x=>x[0]).slice(0,3).join("").toUpperCase())}</b></div><div><div class="kicker">CLUB FILE / ${esc(c.code.toUpperCase())}</div><h3>${esc(c.name)}</h3><p>Club contact: <b>${esc(c.manager || "Not recorded")}</b></p><p class="muted">Registered in ${c.competitions.length} competition record(s).</p></div></div>
+      `<div class="club-profile-head"><div class="club-monogram"><span class="material-symbols-outlined">shield</span><b>${esc(c.name.split(/\s+/).map(x=>x[0]).slice(0,3).join("").toUpperCase())}</b></div><div><div class="kicker">CLUB FILE / ${esc(c.code.toUpperCase())}</div><h3>${esc(c.name)}</h3><p>Club contact: <b>${esc(c.manager || "Not recorded")}</b></p><p class="muted">Registered in ${c.competitions.length} competition record(s).</p></div></div>
       <div class="detailfacts"><div><small>SPORT</small><b>${esc(sportName(c.sport))}</b></div><div><small>COMPETITIONS</small><b>${c.competitions.length}</b></div><div><small>MATCHES</small><b>${totals.played}</b></div><div><small>WON</small><b>${totals.wins}</b></div><div><small>DRAWN</small><b>${totals.draws}</b></div><div><small>LOST</small><b>${totals.losses}</b></div><div><small>FOR</small><b>${totals.scored}</b></div><div><small>AGAINST</small><b>${totals.conceded}</b></div><div><small>HONORS</small><b>${titles.length}</b></div></div>
       ${section("Competition Ledger")}<div class="tablewrap"><table><thead><tr><th>Competition</th><th>Season</th><th>P</th><th>W</th><th>D</th><th>L</th><th>For</th><th>Against</th></tr></thead><tbody>${history.map(r=>`<tr><td><a href="#/competition/${encodeURIComponent(r.competition.id)}"><b>${esc(r.competition.name)}</b></a></td><td>${esc(r.competition.season)}</td><td>${r.played}</td><td>${r.wins}</td><td>${r.draws}</td><td>${r.losses}</td><td>${r.scored}</td><td>${r.conceded}</td></tr>`).join("")}</tbody></table></div>
       ${section("Club Personnel")}<div class="clubgrid">${players.map(p=>`<a class="clubcard" href="#/player/${encodeURIComponent(p.id)}"><small>PLAYER DOSSIER</small><b><span class="material-symbols-outlined tiny-icon">person</span>${esc(p.name)}</b><span>${esc(p.role)}</span></a>`).join("") || '<p class="empty">No squad members recorded in the archive.</p>'}</div>
@@ -994,7 +994,7 @@ function playerRecordStats(name) {
       for (const key of ["gh","ga","ah","aa"]) {
         const list = m.events?.[key]; if (!list) continue;
         list.split("+").forEach(token => {
-          const hit = token.trim().match(/^(.+?)\\s*\\*\\s*(\\d+)$/);
+          const hit = token.trim().match(/^(.+?)\s*\\*\s*(\\d+)$/);
           if (!hit || hit[1].trim().toLowerCase() !== name.toLowerCase()) return;
           const amount=Number(hit[2]); if (key==="gh" || key==="ga") out.goals+=amount; else out.assists+=amount;
           out.competitions.add(c.id);
