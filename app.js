@@ -179,6 +179,31 @@ function extractRecords(text) {
   return records;
 }
 
+function parseBallSequence(raw) {
+  const tokens = raw.replace(/^\[|\]$/g, "").split(",").map(x => x.trim()).filter(Boolean);
+  const stats = { tokens, runs: 0, wickets: 0, legalBalls: 0, extras: 0, fours: 0, sixes: 0, dots: 0, wides: 0, noBalls: 0 };
+  for (const token of tokens) {
+    if (/^\d+$/.test(token)) {
+      const n = Number(token);
+      stats.runs += n; stats.legalBalls++;
+      if (n === 4) stats.fours++;
+      if (n === 6) stats.sixes++;
+      if (n === 0) stats.dots++;
+    } else if (/^Wd$/i.test(token)) {
+      stats.runs++; stats.extras++; stats.wides++;
+    } else if (/^Nb$/i.test(token)) {
+      stats.runs++; stats.extras++; stats.noBalls++;
+    } else if (/^(B|Lb)\d+$/i.test(token)) {
+      const n = Number(token.match(/\d+/)[0]);
+      stats.runs += n; stats.extras += n; stats.legalBalls++;
+    } else if (/^W$/i.test(token)) {
+      stats.wickets++; stats.legalBalls++;
+    } else return null;
+  }
+  stats.overs = Math.floor(stats.legalBalls / 6) + "." + (stats.legalBalls % 6);
+  return stats;
+}
+
 function parseCSN(text) {
   return extractRecords(text).map((src, idx) => {
     const fields = {};
@@ -242,6 +267,12 @@ function parseCSN(text) {
         /^\s*(\d+)\s*-\s*(\d+)(?=\s*(?:\(|$))/
       );
 
+      // Ball-by-ball cricket/handcricket: [home sequence]/[away sequence]
+      const ballMatch = score.match(/^\s*(\[[^\]]*\])\s*\/\s*(\[[^\]]*\])\s*$/);
+      const homeBalls = ballMatch ? parseBallSequence(ballMatch[1]) : null;
+      const awayBalls = ballMatch ? parseBallSequence(ballMatch[2]) : null;
+      const ballData = homeBalls && awayBalls ? { home: homeBalls, away: awayBalls } : null;
+
       const pen = score.match(
         /\(\s*p\s*(\d+)\s*-\s*(\d+)\s*\)/i
       );
@@ -266,9 +297,10 @@ function parseCSN(text) {
         away,
         homeName: teams[home]?.name || home,
         awayName: teams[away]?.name || away,
-        score: score.trim(),
-        homeScore: numeric ? Number(numeric[1]) : null,
-        awayScore: numeric ? Number(numeric[2]) : null,
+        score: ballData ? `${homeBalls.runs}/${homeBalls.wickets} (${homeBalls.overs}) - ${awayBalls.runs}/${awayBalls.wickets} (${awayBalls.overs})` : score.trim(),
+        homeScore: ballData ? homeBalls.runs : numeric ? Number(numeric[1]) : null,
+        awayScore: ballData ? awayBalls.runs : numeric ? Number(numeric[2]) : null,
+        ballData,
         penalties: pen ? [Number(pen[1]), Number(pen[2])] : null,
         events,
         stage: stage || "",
@@ -534,7 +566,14 @@ function section(title, more = "") {
   return `<div class="sectionhead"><span>${esc(title)}</span>${more}</div>`;
 }
 
+function ballSummary(label, innings) {
+  return `<div class="muted"><b>${esc(label)}:</b> [${innings.tokens.map(esc).join(", ")}] · ${innings.runs} runs, ${innings.wickets} wickets, ${innings.legalBalls} legal balls (${innings.overs} ov), ${innings.extras} extras, ${innings.fours} fours, ${innings.sixes} sixes, ${innings.dots} dot balls</div>`;
+}
+
 function matchLine(c, m) {
+  const ballDetails = m.ballData
+    ? `<div class="ball-details">${ballSummary(m.homeName, m.ballData.home)}${ballSummary(m.awayName, m.ballData.away)}</div>`
+    : "";
   return `<article class="matchline">
     <div class="match-meta">
       ${esc(c.name)} · ${esc(m.stage || "Match " + m.index)}
@@ -545,6 +584,7 @@ function matchLine(c, m) {
       <strong>${esc(m.score)}</strong>
       <b>${esc(m.awayName)}</b>
     </div>
+    ${ballDetails}
   </article>`;
 }
 
