@@ -616,3 +616,35 @@ m(
 
 nt(SuperLeague B of the 2026A season.)
 ]
+
+[
+id=hcl26a;
+e=Handcricket League;
+s=2026A;
+ed=1;
+org=CASPER;
+sport=handcricket;
+fmt=2-over group stage;
+t=3;
+ov=2;
+lvl=Handcricket Crown;
+sts=Ongoing;
+
+n(
+  bbu=Black Bird United[Anish];
+  igr=Inter Grande CF[Rounak];
+  nas=New Athletico Saltlake[Vyom];
+)
+
+grp(
+  A>bbu, igr, nas;
+)
+
+m(
+  bbu-igr:[5]/[W]#GS;
+  igr-nas:[9,5,6,W]/[5,3,2,10,2,10,9,8,10,9,7,W]#GS;
+  bbu-nas:[3,10,2,7,4,6,8,5,7]/[3,2,5,6,2,3,2,5,5,9,1,8]#GS
+);
+
+nt(Group A scores recorded ball-by-ball. Group B results pending.)
+]
